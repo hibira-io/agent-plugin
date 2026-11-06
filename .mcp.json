@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "hibira": {
+      "type": "http",
+      "url": "https://hibira.io/mcp"
+    }
+  }
+}
