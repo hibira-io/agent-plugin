@@ -1,0 +1,23 @@
+{
+  "name": "hibira",
+  "version": "0.1.0",
+  "description": "Hibira realtime for Claude Code: the Hibira MCP server plus skills for wiring channels, push notifications, AI streaming and human approvals into your app.",
+  "author": {
+    "name": "Hibira",
+    "email": "support@hibira.io"
+  },
+  "homepage": "https://hibira.io/mcp-server",
+  "repository": "https://github.com/hibira-io/agent-plugin",
+  "license": "MIT",
+  "keywords": [
+    "hibira",
+    "realtime",
+    "websocket",
+    "pusher",
+    "push-notifications",
+    "mcp",
+    "skills"
+  ],
+  "privacyPolicyUrl": "https://hibira.io/legal/privacy",
+  "icon": ".claude-plugin/icon.png"
+}
