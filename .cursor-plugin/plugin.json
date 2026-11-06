@@ -1,0 +1,24 @@
+{
+  "name": "hibira",
+  "version": "0.2.0",
+  "author": {
+    "name": "Hibira",
+    "email": "support@hibira.io"
+  },
+  "homepage": "https://hibira.io/mcp-server",
+  "repository": "https://github.com/hibira-io/agent-plugin",
+  "license": "MIT",
+  "description": "Hibira realtime for Cursor: the Hibira MCP server plus skills for wiring channels, push notifications, AI streaming and human approvals into your app.",
+  "keywords": [
+    "hibira",
+    "realtime",
+    "websocket",
+    "pusher",
+    "push-notifications",
+    "cursor",
+    "mcp",
+    "skills"
+  ],
+  "skills": "skills/",
+  "mcpServers": ".mcp.json"
+}

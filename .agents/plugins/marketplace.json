@@ -1,0 +1,20 @@
+{
+  "name": "hibira",
+  "interface": {
+    "displayName": "Hibira"
+  },
+  "plugins": [
+    {
+      "name": "hibira",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}
