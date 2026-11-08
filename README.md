@@ -1,6 +1,6 @@
 # Hibira agent plugin
 
-Hibira for AI coding agents: the [Hibira MCP server](https://hibira.io/mcp-server) plus skills that teach your agent to wire Hibira realtime channels, push notifications, AI streaming and human approvals into your app.
+Hibira for AI coding agents: the [Hibira MCP server](https://hibira.io/mcp-server) plus skills that teach your agent to wire Hibira realtime channels, push notifications, AI streaming and human approvals into your app, and the Hibira Live Chat MCP server for connecting your admin panel to Live Chat single sign-on.
 
 [![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en/install-mcp?name=hibira&config=eyJ1cmwiOiJodHRwczovL2hpYmlyYS5pby9tY3AifQ%3D%3D)
 [![Install in VS Code](https://img.shields.io/badge/VS_Code-Install_Hibira_MCP-0098FF?logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=hibira&config=%7B%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Fhibira.io%2Fmcp%22%7D)
@@ -104,7 +104,10 @@ Clients that read the [Agent Plugins](https://agent-plugins.org) manifest (`plug
 
 ## What you get
 
-**MCP server** `hibira` (`https://hibira.io/mcp`): list and create apps, read usage, get the setup guide for your SDK with your app's values filled in, send a test event and watch the debug console, publish events, send push notifications, and ask a person for approval.
+**MCP servers**
+
+- `hibira` (`https://hibira.io/mcp`): list and create apps, read usage, get the setup guide for your SDK with your app's values filled in, send a test event and watch the debug console, publish events, send push notifications, and ask a person for approval.
+- `hibira-live-chat` (`https://chat.hibira.io/mcp`): for [Hibira Live Chat](https://chat.hibira.io) owners and admins. Read the workspace's single sign-on setup, get the signing code for your stack with your workspace filled in, check the tokens your code signs (without signing anyone in), list agents and turn on "only single sign-on". It never sees your SSO secret. Each server signs in separately, the first time you use it.
 
 **Skills**
 
@@ -116,8 +119,9 @@ Clients that read the [Agent Plugins](https://agent-plugins.org) manifest (`plug
 | `push-notifications` | Hibira Push for iOS, Android and browsers |
 | `ai-streaming` | Resumable Vercel AI SDK chat with `@hibira-io/ai-sdk` |
 | `agent-approvals` | Human-in-the-loop approvals for agents and workflows |
+| `livechat-sso` | Staff open the Hibira Live Chat inbox from your own admin panel (single sign-on) |
 
-Try: *"Add live order updates to this app with Hibira"* or *"Move this project from Pusher to Hibira"*.
+Try: *"Add live order updates to this app with Hibira"*, *"Move this project from Pusher to Hibira"* or *"Connect our admin panel to Hibira Live Chat single sign-on"*.
 
 ## Repository layout
 
@@ -131,7 +135,7 @@ Try: *"Add live order updates to this app with Hibira"* or *"Move this project f
 | `gemini-extension.json` | Gemini CLI extension |
 | `plugin.json`, `mcp.json` | Agent Plugins manifest |
 
-Run `node scripts/check.mjs` after changing a manifest: it checks that every manifest carries the same version and MCP URL.
+Run `node scripts/check.mjs` after changing a manifest: it checks that every manifest carries the same version and MCP URLs.
 
 ## License
 
@@ -141,4 +145,4 @@ MIT
 
 ### 中文摘要
 
-Hibira 的 AI 編程助手外掛：接上 Hibira MCP 伺服器（OAuth 登入，不需 API key），並附 6 個技能，讓助手能在你的專案裡接上即時頻道、推播、AI 串流與人工審核，也能協助從 Pusher 遷移。支援 Claude Code、Codex、Copilot CLI、Gemini CLI、Cursor、VS Code、OpenCode，其他工具可用 `npx skills add hibira-io/agent-plugin` 加上 MCP 網址 `https://hibira.io/mcp`。
+Hibira 的 AI 編程助手外掛：接上 Hibira MCP 伺服器（OAuth 登入，不需 API key），並附 7 個技能，讓助手能在你的專案裡接上即時頻道、推播、AI 串流與人工審核，也能協助從 Pusher 遷移。另含 Hibira 即時客服的 MCP 伺服器（`https://chat.hibira.io/mcp`），可幫你把自家後台接上即時客服的單一登入，讓客服從後台直接打開收件匣；它看不到你的 SSO 密鑰。支援 Claude Code、Codex、Copilot CLI、Gemini CLI、Cursor、VS Code、OpenCode，其他工具可用 `npx skills add hibira-io/agent-plugin` 加上 MCP 網址 `https://hibira.io/mcp`。

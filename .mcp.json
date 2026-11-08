@@ -3,6 +3,10 @@
     "hibira": {
       "type": "http",
       "url": "https://hibira.io/mcp"
+    },
+    "hibira-live-chat": {
+      "type": "http",
+      "url": "https://chat.hibira.io/mcp"
     }
   }
 }

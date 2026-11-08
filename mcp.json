@@ -4,6 +4,10 @@
     "hibira": {
       "type": "streamable-http",
       "url": "https://hibira.io/mcp"
+    },
+    "hibira-live-chat": {
+      "type": "streamable-http",
+      "url": "https://chat.hibira.io/mcp"
     }
   }
 }
