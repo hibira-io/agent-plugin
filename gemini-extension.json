@@ -1,10 +1,13 @@
 {
   "name": "hibira",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Hibira realtime for Gemini CLI: the Hibira MCP server plus skills for wiring channels, push notifications, AI streaming and human approvals into your app.",
   "mcpServers": {
     "hibira": {
       "httpUrl": "https://hibira.io/mcp"
+    },
+    "hibira-live-chat": {
+      "httpUrl": "https://chat.hibira.io/mcp"
     }
   }
 }
