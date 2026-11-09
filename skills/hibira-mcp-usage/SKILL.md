@@ -1,6 +1,6 @@
 ---
 name: hibira-mcp-usage
-description: How and when to use the Hibira MCP server (hibira.io/mcp) safely. Use when the task needs the user's real Hibira account, such as listing or creating apps, reading usage, sending a test event, watching the debug console, publishing events, sending push notifications or asking a person for approval.
+description: How and when to use the Hibira MCP server (hibira.io/mcp) safely. Use when the task needs the user's real Hibira account, such as listing or creating apps, reading usage, sending a test event, watching the debug console, publishing events, sending push notifications, asking a person for approval or running a waiting room.
 ---
 
 # Using the Hibira MCP server
@@ -26,6 +26,10 @@ If the Hibira tools are missing from your tool list, the server is not connected
 | `publish_event` | write | Publish an event to up to 100 channels, for example to stream an agent's progress |
 | `send_push` | write | A push notification to interests or user IDs through the app's Push instance |
 | `request_approval` | write | Ask a person to approve something, with a hosted answer link |
+| `list_waiting_rooms` | read | The app's waiting rooms with live queue counters |
+| `get_waiting_room` | read | One waiting room's live counters |
+| `set_waiting_room` | write | Create a waiting room or change its rate, state (open, paused, closed), start time, title, notice or return URLs |
+| `admit_waiting_room` | write | Let the next N people in now |
 
 ## Typical flow: wire Hibira into the current project
 
@@ -39,4 +43,5 @@ If the Hibira tools are missing from your tool list, the server is not connected
 - **Secrets.** `create_app` returns the app secret once. Write it straight into a git-ignored env file (for example `.env.local`) and never print it in chat, commit it, or put it in client-side code. Other tools never return secrets; if the user lost theirs, they rotate it in the portal.
 - **Writes cost quota.** `send_test_event`, `publish_event` and `send_push` count toward the plan's daily limits. Do not loop them. Tool calls are rate limited (about 5 per second per token).
 - **Confirm before acting on production.** Ask before `create_app`, before `update_app` on an app that is in use (disabling an app or narrowing allowed origins drops live clients), and before `send_push` to real users.
+- **Waiting rooms hold real people.** Ask before pausing, closing or admitting a large batch from a room with people in it. See the `waiting-room` skill.
 - **Approvals are for people.** Use `request_approval` when a person must decide; share the link it returns and poll with `get_approval`. The first answer wins.
