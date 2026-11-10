@@ -44,7 +44,11 @@ if (errors.length) {
 rmSync('dist', { recursive: true, force: true });
 mkdirSync(join(OUT, '.codex-plugin'), { recursive: true });
 writeFileSync(join(OUT, '.codex-plugin/plugin.json'), JSON.stringify(manifest, null, 2) + '\n');
-writeFileSync(join(OUT, '.mcp.json'), JSON.stringify({ mcpServers: { [SERVER]: mcp } }, null, 2) + '\n');
+// hibira.io/mcp signs in with OAuth; the authorization server supports CIMD
+// and falls back to dynamic client registration, so no client ID is needed.
+const auth = { type: 'oauth', client: { mode: 'cimd' } };
+const server = { ...mcp, extensions: { 'com.openai': { auth } } };
+writeFileSync(join(OUT, '.mcp.json'), JSON.stringify({ mcpServers: { [SERVER]: server } }, null, 2) + '\n');
 cpSync('assets', join(OUT, 'assets'), { recursive: true });
 for (const s of readdirSync('skills')) {
   if (!SKIP_SKILLS.has(s)) cpSync(join('skills', s), join(OUT, 'skills', s), { recursive: true });
