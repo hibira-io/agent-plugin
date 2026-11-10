@@ -7,6 +7,10 @@
     "hibira-live-chat": {
       "type": "http",
       "url": "https://chat.hibira.io/mcp"
+    },
+    "gaya": {
+      "type": "http",
+      "url": "https://gaya.hibira.io/mcp"
     }
   }
 }
