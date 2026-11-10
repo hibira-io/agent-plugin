@@ -6,13 +6,13 @@
   },
   "metadata": {
     "description": "Hibira plugin marketplace for Claude Code.",
-    "version": "0.3.0"
+    "version": "0.4.0"
   },
   "plugins": [
     {
       "name": "hibira",
       "source": "./",
-      "description": "Hibira realtime for Claude Code: the Hibira MCP server plus skills for wiring channels, push notifications, AI streaming and human approvals into your app.",
+      "description": "Hibira realtime for Claude Code: the Hibira MCP server plus skills for wiring channels, push notifications, AI streaming, human approvals and waiting rooms into your app.",
       "author": {
         "name": "Hibira",
         "email": "support@hibira.io"
