@@ -106,7 +106,7 @@ Clients that read the [Agent Plugins](https://agent-plugins.org) manifest (`plug
 
 **MCP servers**
 
-- `hibira` (`https://hibira.io/mcp`): list and create apps, read usage, get the setup guide for your SDK with your app's values filled in, send a test event and watch the debug console, publish events, send push notifications, ask a person for approval, and run waiting rooms (create, open, pause, close, admit).
+- `hibira` (`https://hibira.io/mcp`): list and create apps, read usage, get the setup guide for your SDK with your app's values filled in, send a test event and watch the debug console, see who is on which channel, configure and test webhooks, rotate a secret or delete an app (each only after you confirm the app's name), publish events, send push notifications, ask a person for approval, and run waiting rooms (create, open, pause, close, admit).
 - `hibira-live-chat` (`https://chat.hibira.io/mcp`): for [Hibira Live Chat](https://chat.hibira.io) owners and admins. Read the workspace's single sign-on setup, get the signing code for your stack with your workspace filled in, check the tokens your code signs (without signing anyone in), list agents and turn on "only single sign-on". It never sees your SSO secret.
 - `gaya` (`https://gaya.hibira.io/mcp`): ask a [Gaya](https://gaya.hibira.io) group of AI personas a question and get their verdict back, then follow up in the room. Rooms use your own Gaya account's AI replies.
 
