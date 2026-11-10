@@ -55,7 +55,7 @@
   },
   "publication": {
     "countries": [],
-    "release_notes": "First ChatGPT release (0.5.0). Connect a Hibira account to list and create apps, get setup guides with your app's values, send test events, read usage, request approvals, send push notifications and run waiting rooms. Includes a get-started skill and skills for live updates, moving from Pusher, push notifications, approvals and waiting rooms.",
+    "release_notes": "First ChatGPT release (0.8.0). Connect a Hibira account to list and create apps, get setup guides with your app's values, send test events, read usage, request approvals, send push notifications and run waiting rooms. Includes a get-started skill and skills for live updates, moving from Pusher, push notifications, approvals and waiting rooms.",
     "translations": {
       "ja-JP": {
         "subtitle": "リアルタイム通信とプッシュ通知",
