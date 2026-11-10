@@ -7,7 +7,8 @@ import { execFileSync } from 'node:child_process';
 import { join } from 'node:path';
 
 const SERVER = 'hibira';
-const SKIP_SKILLS = new Set(['livechat-sso']); // uses the Live Chat MCP server
+// Skills for other products (Live Chat, Gaya) and their MCP servers stay out.
+const SKIP_SKILLS = new Set(['livechat-sso', 'livechat-widget', 'livechat-knowledge', 'gaya-ask-group', 'gaya-review']);
 const OUT = 'dist/hibira-chatgpt';
 
 const read = (p) => JSON.parse(readFileSync(p, 'utf8'));

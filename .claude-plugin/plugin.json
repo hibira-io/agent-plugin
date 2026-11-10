@@ -1,7 +1,7 @@
 {
   "name": "hibira",
   "version": "0.8.0",
-  "description": "Hibira realtime for Claude Code: the Hibira MCP server plus skills for wiring channels, push notifications, AI streaming, human approvals and waiting rooms into your app.",
+  "description": "Hibira realtime for Claude Code: the Hibira MCP server plus skills for wiring channels, push notifications, AI streaming, human approvals, waiting rooms and the Chat API into your app, adding the Live Chat widget and knowledge base, and asking a Gaya panel for a second opinion.",
   "author": {
     "name": "Hibira",
     "email": "support@hibira.io"
