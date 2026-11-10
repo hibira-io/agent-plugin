@@ -8,6 +8,10 @@
     "hibira-live-chat": {
       "type": "streamable-http",
       "url": "https://chat.hibira.io/mcp"
+    },
+    "gaya": {
+      "type": "streamable-http",
+      "url": "https://gaya.hibira.io/mcp"
     }
   }
 }
