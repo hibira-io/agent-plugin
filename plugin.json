@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "hibira",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "author": {
     "name": "Hibira",
     "email": "support@hibira.io"
@@ -9,7 +9,7 @@
   "homepage": "https://hibira.io/mcp-server",
   "repository": "https://github.com/hibira-io/agent-plugin",
   "license": "MIT",
-  "description": "Hibira realtime for AI coding agents: the Hibira MCP server plus skills for wiring channels, push notifications, AI streaming, human approvals and waiting rooms into your app, adding the Live Chat widget and knowledge base, and asking a Gaya panel for a second opinion.",
+  "description": "Hibira realtime for AI coding agents: the Hibira MCP server plus skills for wiring channels, push notifications, AI streaming, human approvals, waiting rooms and the Chat API into your app, adding the Live Chat widget and knowledge base, and asking a Gaya panel for a second opinion.",
   "keywords": [
     "hibira",
     "realtime",

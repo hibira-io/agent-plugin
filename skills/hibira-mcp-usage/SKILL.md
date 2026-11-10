@@ -1,6 +1,6 @@
 ---
 name: hibira-mcp-usage
-description: How and when to use the Hibira MCP server (hibira.io/mcp) safely. Use when the task needs the user's real Hibira account, such as listing or creating apps, reading usage, sending a test event, watching the debug console, reading channels and presence members, configuring webhooks, rotating an app secret, deleting an app, publishing events, sending push notifications, asking a person for approval or running a waiting room.
+description: How and when to use the Hibira MCP server (hibira.io/mcp) safely. Use when the task needs the user's real Hibira account, such as listing or creating apps, reading usage, sending a test event, watching the debug console, reading channels and presence members, configuring webhooks, rotating an app secret, deleting an app, publishing events, sending push notifications, asking a person for approval running a waiting room or testing Chat API conversations.
 ---
 
 # Using the Hibira MCP server
@@ -37,6 +37,10 @@ If the Hibira tools are missing from your tool list, the server is not connected
 | `test_webhook` | write | Send a sample signed webhook to a saved endpoint |
 | `rotate_app_secret` | write, destructive | A new app secret, returned **once**; the old one keeps working for `grace_minutes` (default 24 hours) |
 | `delete_app` | write, destructive | Delete an app for good |
+| `create_conversation` | write | Chat API (beta): create a conversation with members |
+| `send_message` | write | Chat API: send a message as a member (delivered live and pushed) |
+| `list_conversations` | read | Chat API: a user's conversations with unread counts |
+| `list_messages` | read | Chat API: a conversation's newest messages |
 
 ## Typical flow: wire Hibira into the current project
 
@@ -60,5 +64,6 @@ If the Hibira tools are missing from your tool list, the server is not connected
   - `rotate_app_secret` with the default grace period keeps the old secret working for 24 hours; update every server's `PUSHER_APP_SECRET` and redeploy within it. `grace_minutes: 0` breaks every server still on the old secret at once, so use it only when the user asks (for example, a leaked secret).
 - **Writes cost quota.** `send_test_event`, `publish_event` and `send_push` count toward the plan's daily limits. Do not loop them. Tool calls are rate limited (about 5 per second per token).
 - **Confirm before acting on production.** Ask before `create_app`, before `update_app` on an app that is in use (disabling an app or narrowing allowed origins drops live clients), and before `send_push` to real users.
+- **Chat messages reach real users.** Ask before `send_message` on a production app; use `push: "never"` and fixed test user IDs when testing. See the `chat-api` skill.
 - **Waiting rooms hold real people.** Ask before pausing, closing or admitting a large batch from a room with people in it. See the `waiting-room` skill.
 - **Approvals are for people.** Use `request_approval` when a person must decide; share the link it returns and poll with `get_approval`. The first answer wins.

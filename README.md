@@ -1,6 +1,6 @@
 # Hibira agent plugin
 
-Hibira for AI coding agents: the [Hibira MCP server](https://hibira.io/mcp-server) plus skills that teach your agent to wire Hibira realtime channels, push notifications, AI streaming, human approvals and virtual waiting rooms into your app; the Hibira Live Chat MCP server and skills for the chat widget, its knowledge base and single sign-on; and the Gaya MCP server for a second opinion from a group of AI personas.
+Hibira for AI coding agents: the [Hibira MCP server](https://hibira.io/mcp-server) plus skills that teach your agent to wire Hibira realtime channels, push notifications, AI streaming, human approvals, in-app chat (Chat API) and virtual waiting rooms into your app; the Hibira Live Chat MCP server and skills for the chat widget, its knowledge base and single sign-on; and the Gaya MCP server for a second opinion from a group of AI personas.
 
 [![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en/install-mcp?name=hibira&config=eyJ1cmwiOiJodHRwczovL2hpYmlyYS5pby9tY3AifQ%3D%3D)
 [![Install in VS Code](https://img.shields.io/badge/VS_Code-Install_Hibira_MCP-0098FF?logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=hibira&config=%7B%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Fhibira.io%2Fmcp%22%7D)
@@ -122,6 +122,7 @@ Each server signs in separately, the first time you use it.
 | `push-notifications` | Hibira Push for iOS, Android and browsers |
 | `ai-streaming` | Resumable Vercel AI SDK chat with `@hibira-io/ai-sdk` |
 | `agent-approvals` | Human-in-the-loop approvals for agents and workflows |
+| `chat-api` | In-app chat with stored history, unread counts and read receipts (Chat API, beta) |
 | `waiting-room` | A virtual waiting room (queue) in front of a ticket drop or flash sale, in any framework |
 | `livechat-sso` | Staff open the Hibira Live Chat inbox from your own admin panel (single sign-on) |
 | `livechat-widget` | The Hibira Live Chat widget on your site, in any framework, opened from your own buttons |
@@ -155,4 +156,4 @@ MIT
 
 ### 中文摘要
 
-Hibira 的 AI 編程助手外掛：接上 Hibira MCP 伺服器（OAuth 登入，不需 API key），並附 12 個技能，讓助手能在你的專案裡接上即時頻道、推播、AI 串流、人工審核與排隊等候室（建立、開放、暫停、售罄、放行，並在任何框架裡驗證 pass），也能協助從 Pusher 遷移。另含 Hibira 即時客服的 MCP 伺服器（`https://chat.hibira.io/mcp`），可幫你把自家後台接上即時客服的單一登入，讓客服從後台直接打開收件匣；它看不到你的 SSO 密鑰。新技能可把即時客服小工具裝到任何網站，並把你的 FAQ 和說明頁整理成知識庫 JSON 檔一鍵匯入。也含 Gaya 的 MCP 伺服器（`https://gaya.hibira.io/mcp`），可請一群 AI 角色討論問題或評估文案、命名與定價，帶回結論和房間連結。沒有外掛的話，可到 hibira.io/mcp-server 複製一段規則貼進 CLAUDE.md、AGENTS.md 或 Cursor 規則。支援 Claude Code、Codex、Copilot CLI、Gemini CLI、Cursor、VS Code、OpenCode，其他工具可用 `npx skills add hibira-io/agent-plugin` 加上 MCP 網址 `https://hibira.io/mcp`。
+Hibira 的 AI 編程助手外掛：接上 Hibira MCP 伺服器（OAuth 登入，不需 API key），並附 13 個技能，讓助手能在你的專案裡接上即時頻道、推播、AI 串流、人工審核、聊天（Chat API）與排隊等候室（建立、開放、暫停、售罄、放行，並在任何框架裡驗證 pass），也能協助從 Pusher 遷移。另含 Hibira 即時客服的 MCP 伺服器（`https://chat.hibira.io/mcp`），可幫你把自家後台接上即時客服的單一登入，讓客服從後台直接打開收件匣；它看不到你的 SSO 密鑰。新技能可把即時客服小工具裝到任何網站，並把你的 FAQ 和說明頁整理成知識庫 JSON 檔一鍵匯入。也含 Gaya 的 MCP 伺服器（`https://gaya.hibira.io/mcp`），可請一群 AI 角色討論問題或評估文案、命名與定價，帶回結論和房間連結。沒有外掛的話，可到 hibira.io/mcp-server 複製一段規則貼進 CLAUDE.md、AGENTS.md 或 Cursor 規則。支援 Claude Code、Codex、Copilot CLI、Gemini CLI、Cursor、VS Code、OpenCode，其他工具可用 `npx skills add hibira-io/agent-plugin` 加上 MCP 網址 `https://hibira.io/mcp`。
