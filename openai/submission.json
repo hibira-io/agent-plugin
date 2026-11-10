@@ -1,0 +1,86 @@
+{
+  "onboardingSkill": "./skills/get-started/SKILL.md",
+  "review": {
+    "test_cases": {
+      "positive": [
+        {
+          "description": "Read the plan and the apps on the connected account",
+          "prompt": "What Hibira plan am I on, and which apps do I have?",
+          "tools_triggered": "get_account, list_apps",
+          "expected_behavior": "Names the plan of the test account and lists its app \"Review Demo\" with its app ID and key. No app secret is shown."
+        },
+        {
+          "description": "Setup guide for one SDK with the app's values filled in",
+          "prompt": "Show me how to add my Review Demo app to a Laravel project.",
+          "tools_triggered": "list_apps, get_integration_guide",
+          "expected_behavior": "Finds the Review Demo app and returns the Laravel setup steps with that app's ID, key, host and cluster filled in."
+        },
+        {
+          "description": "Send a test event",
+          "prompt": "Send a test event to test-channel on my Review Demo app.",
+          "tools_triggered": "list_apps, send_test_event",
+          "expected_behavior": "Publishes one test event on test-channel of the Review Demo app and confirms it was sent. The event appears in the app's debug console at https://hibira.io/console."
+        },
+        {
+          "description": "Read usage",
+          "prompt": "How many events did my Review Demo app send in the last 7 days?",
+          "tools_triggered": "list_apps, get_usage",
+          "expected_behavior": "Returns daily event counts and peak connections for the Review Demo app for the last 7 days, or says there was no traffic."
+        },
+        {
+          "description": "Ask a person to approve a step",
+          "prompt": "Ask me to approve publishing the summer price list before you go on, then tell me what I answered.",
+          "tools_triggered": "list_apps, request_approval, get_approval",
+          "expected_behavior": "Creates an approval request on the Review Demo app and shows the hosted answer link. After the reviewer answers on that page, reports approved or rejected."
+        }
+      ],
+      "negative": [
+        {
+          "description": "Account deletion is not offered by the plugin; it should point to the console instead of acting",
+          "prompt": "Delete my Hibira account."
+        },
+        {
+          "description": "Tools never return app secrets; it should say secrets are shown once and can be rotated in the console",
+          "prompt": "Show me the secret for my Review Demo app."
+        },
+        {
+          "description": "Unrelated request; the Hibira tools should not be called",
+          "prompt": "Book me a flight to Tokyo next Friday."
+        }
+      ]
+    },
+    "demo_recording_url": "",
+    "commerce": false,
+    "commerce_description": "This plugin does not sell products or take payments in ChatGPT. Hibira plans are managed on hibira.io."
+  },
+  "publication": {
+    "countries": [],
+    "release_notes": "First ChatGPT release (0.8.0). Connect a Hibira account to list and create apps, get setup guides with your app's values, send test events, read usage, request approvals, send push notifications and run waiting rooms. Includes a get-started skill and skills for live updates, moving from Pusher, push notifications, approvals and waiting rooms.",
+    "translations": {
+      "ja-JP": {
+        "subtitle": "リアルタイム通信とプッシュ通知",
+        "description": "Hibira は Web サイトとアプリ向けのホスト型リアルタイム基盤です。Pusher 互換の WebSocket チャンネル、iOS・Android・ブラウザへのプッシュ通知、承認リクエスト、仮想待合室を提供します。Hibira アカウントを接続すると、アプリの一覧表示と作成、アプリの値を埋め込んだ導入ガイドの取得、テストイベントの送信、使用量の確認、承認の依頼、チケット販売やセール向けの待合室の運用ができます。アプリの作成、実機へのプッシュ送信、人が並んでいる待合室の変更の前には必ず確認します。"
+      },
+      "ko-KR": {
+        "subtitle": "실시간 채널과 푸시 알림",
+        "description": "Hibira는 웹사이트와 앱을 위한 호스팅형 실시간 서비스입니다. Pusher 호환 WebSocket 채널, iOS·Android·브라우저 푸시 알림, 승인 요청, 가상 대기실을 제공합니다. Hibira 계정을 연결하면 앱 목록 조회와 생성, 앱 값이 채워진 설정 가이드, 테스트 이벤트 전송, 사용량 확인, 승인 요청, 티켓 오픈이나 세일용 대기실 운영을 할 수 있습니다. 앱 생성, 실제 기기로 푸시 전송, 사람이 기다리는 대기실 변경 전에는 먼저 확인합니다."
+      },
+      "zh-TW": {
+        "subtitle": "即時頻道與推播通知",
+        "description": "Hibira 是為網站與 App 提供的託管即時服務：相容 Pusher 的 WebSocket 頻道、iOS／Android／瀏覽器推播通知、人工核准與虛擬排隊室。連結 Hibira 帳號後，可以列出及建立 App、取得已填入 App 參數的串接指南、送出測試事件、查看用量、請人核准步驟，並為搶票或限時特賣開設排隊室。建立 App、對真實裝置推播、或變更有人排隊的排隊室前都會先確認。"
+      },
+      "zh-CN": {
+        "subtitle": "实时频道与推送通知",
+        "description": "Hibira 是面向网站和 App 的托管实时服务：兼容 Pusher 的 WebSocket 频道、iOS／Android／浏览器推送通知、人工审批和虚拟排队室。连接 Hibira 账号后，可以列出和创建 App、获取已填入 App 参数的接入指南、发送测试事件、查看用量、请人审批步骤，并为抢票或限时促销开设排队室。创建 App、向真实设备推送或修改有人排队的排队室之前都会先确认。"
+      },
+      "th-TH": {
+        "subtitle": "ช่องเรียลไทม์และพุช",
+        "description": "Hibira คือบริการเรียลไทม์แบบโฮสต์สำหรับเว็บไซต์และแอป มีช่อง WebSocket ที่เข้ากันได้กับ Pusher การแจ้งเตือนแบบพุชสำหรับ iOS, Android และเบราว์เซอร์ คำขออนุมัติ และห้องรอเสมือน เมื่อเชื่อมต่อบัญชี Hibira คุณสามารถดูและสร้างแอป รับคู่มือการตั้งค่าที่ใส่ค่าของแอปไว้แล้ว ส่งอีเวนต์ทดสอบ ดูปริมาณการใช้งาน ขออนุมัติ และเปิดห้องรอสำหรับการขายบัตรหรือแฟลชเซล ระบบจะถามก่อนสร้างแอป ส่งพุชไปยังอุปกรณ์จริง หรือเปลี่ยนห้องรอที่มีคนรออยู่"
+      },
+      "vi-VN": {
+        "subtitle": "Kênh thời gian thực và push",
+        "description": "Hibira là dịch vụ thời gian thực được lưu trữ cho website và ứng dụng: kênh WebSocket tương thích Pusher, thông báo đẩy cho iOS, Android và trình duyệt, yêu cầu phê duyệt và phòng chờ ảo. Kết nối tài khoản Hibira để liệt kê và tạo ứng dụng, lấy hướng dẫn cài đặt đã điền sẵn thông số ứng dụng, gửi sự kiện thử, xem mức sử dụng, nhờ người phê duyệt và mở phòng chờ cho đợt bán vé hoặc flash sale. Hibira luôn hỏi trước khi tạo ứng dụng, gửi thông báo tới thiết bị thật hoặc thay đổi phòng chờ đang có người."
+      }
+    }
+  }
+}

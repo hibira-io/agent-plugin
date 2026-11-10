@@ -1,6 +1,6 @@
 {
   "name": "hibira",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "author": {
     "name": "Hibira",
     "email": "support@hibira.io"
@@ -8,7 +8,7 @@
   "homepage": "https://hibira.io/mcp-server",
   "repository": "https://github.com/hibira-io/agent-plugin",
   "license": "MIT",
-  "description": "Hibira realtime for Codex: the Hibira MCP server plus skills for wiring channels, push notifications, AI streaming, human approvals, waiting rooms and the Chat API into your app, adding the Live Chat widget and knowledge base, and asking a Gaya panel for a second opinion.",
+  "description": "Hibira realtime for coding agents and ChatGPT: the Hibira MCP server plus skills for wiring channels, push notifications, AI streaming, human approvals, waiting rooms and the Chat API into your app, adding the Live Chat widget and knowledge base, and asking a Gaya panel for a second opinion.",
   "keywords": [
     "hibira",
     "realtime",
@@ -23,14 +23,17 @@
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Hibira",
-    "shortDescription": "Realtime WebSockets and push for apps",
-    "longDescription": "Skills for adding Hibira realtime to your app: Pusher-compatible channels for web, mobile and backends, moving from Pusher, push notifications for iOS, Android and browsers, resumable AI chat streaming and human approvals for agents. The connected Hibira MCP server works on the account you sign in with: list and create apps, get the setup guide for your SDK with your app's values filled in, send a test event and watch the debug console. It asks before creating apps or sending push notifications to real devices.",
+    "shortDescription": "Realtime channels and push",
+    "longDescription": "Hibira is hosted realtime for websites and apps: Pusher-compatible WebSocket channels, push notifications for iOS, Android and browsers, human approvals and virtual waiting rooms. Connect your Hibira account to list and create apps, get the setup guide for your stack with your app's values filled in, send a test event and watch it arrive, check usage, ask a person to approve a step, and run a waiting room for a ticket drop or flash sale. Skills cover adding live updates to a project, moving from Pusher and wiring push notifications. Hibira asks before creating apps, sending push notifications to real devices or changing a waiting room that people are in. Sign in with your Hibira account.",
     "developerName": "Hibira",
     "category": "Developer Tools",
     "capabilities": [
-      "Read account data",
-      "Create apps",
-      "Send test events"
+      "Read apps and usage",
+      "Create and update apps",
+      "Send test events",
+      "Send push notifications",
+      "Request approvals",
+      "Run waiting rooms"
     ],
     "websiteURL": "https://hibira.io",
     "supportURL": "https://github.com/hibira-io/agent-plugin/issues",
@@ -39,11 +42,13 @@
     "defaultPrompt": [
       "Add live order updates to this app with Hibira.",
       "Move this project from Pusher to Hibira.",
-      "Stream my AI chat answers over Hibira so they survive reloads."
+      "How much did my Hibira apps use this week?"
     ],
     "brandColor": "#E5484D",
     "brandColorDark": "#FF6369",
     "composerIcon": "./assets/icon.png",
-    "logo": "./assets/icon.png"
+    "logo": "./assets/logo.png",
+    "composerIconDark": "./assets/icon-dark.png",
+    "logoDark": "./assets/logo-dark.png"
   }
 }
