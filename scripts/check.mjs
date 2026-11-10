@@ -3,6 +3,7 @@ import { readFileSync, existsSync } from 'node:fs';
 
 const MCP_URL = 'https://hibira.io/mcp';
 const LIVE_CHAT_URL = 'https://chat.hibira.io/mcp';
+const GAYA_URL = 'https://gaya.hibira.io/mcp';
 const read = (p) => JSON.parse(readFileSync(p, 'utf8'));
 const errors = [];
 
@@ -36,6 +37,15 @@ for (const [file, u] of Object.entries(liveChat)) {
   if (u !== LIVE_CHAT_URL) errors.push(`${file}: Live Chat MCP URL ${u}, expected ${LIVE_CHAT_URL}`);
 }
 
+const gaya = {
+  '.mcp.json': read('.mcp.json').mcpServers.gaya?.url,
+  'mcp.json': read('mcp.json').mcpServers.gaya?.url,
+  'gemini-extension.json': read('gemini-extension.json').mcpServers.gaya?.httpUrl,
+};
+for (const [file, u] of Object.entries(gaya)) {
+  if (u !== GAYA_URL) errors.push(`${file}: Gaya MCP URL ${u}, expected ${GAYA_URL}`);
+}
+
 for (const p of ['assets/icon.png', '.claude-plugin/icon.png']) {
   if (!existsSync(p)) errors.push(`${p} is missing`);
 }
@@ -44,4 +54,4 @@ if (errors.length) {
   console.error(errors.join('\n'));
   process.exit(1);
 }
-console.log(`ok: version ${version}, MCP ${MCP_URL} and ${LIVE_CHAT_URL}`);
+console.log(`ok: version ${version}, MCP ${MCP_URL}, ${LIVE_CHAT_URL} and ${GAYA_URL}`);
