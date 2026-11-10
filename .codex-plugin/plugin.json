@@ -24,7 +24,7 @@
   "interface": {
     "displayName": "Hibira",
     "shortDescription": "Realtime channels and push",
-    "longDescription": "Hibira is hosted realtime for websites and apps: Pusher-compatible WebSocket channels, push notifications for iOS, Android and browsers, human approvals and virtual waiting rooms. Connect your Hibira account to list and create apps, get the setup guide for your stack with your app's values filled in, send a test event and watch it arrive, check usage, ask a person to approve a step, and run a waiting room for a ticket drop or flash sale. Skills cover adding live updates to a project, moving from Pusher and wiring push notifications. Hibira asks before creating apps, sending push notifications to real devices or changing a waiting room that people are in. Sign in with your Hibira account; a free plan is available.",
+    "longDescription": "Hibira is hosted realtime for websites and apps: Pusher-compatible WebSocket channels, push notifications for iOS, Android and browsers, human approvals and virtual waiting rooms. Connect your Hibira account to list and create apps, get the setup guide for your stack with your app's values filled in, send a test event and watch it arrive, check usage, ask a person to approve a step, and run a waiting room for a ticket drop or flash sale. Skills cover adding live updates to a project, moving from Pusher and wiring push notifications. Hibira asks before creating apps, sending push notifications to real devices or changing a waiting room that people are in. Sign in with your Hibira account.",
     "developerName": "Hibira",
     "category": "Developer Tools",
     "capabilities": [
