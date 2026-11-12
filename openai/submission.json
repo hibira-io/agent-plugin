@@ -22,10 +22,10 @@
           "expected_behavior": "Publishes one test event on test-channel of the Review Demo app and confirms it was sent. The event appears in the app's debug console at https://hibira.io/console."
         },
         {
-          "description": "Read usage",
-          "prompt": "How many events did my Review Demo app send in the last 7 days?",
-          "tools_triggered": "list_apps, get_usage",
-          "expected_behavior": "Returns daily event counts and peak connections for the Review Demo app for the last 7 days, or says there was no traffic."
+          "description": "Open a live poll panel",
+          "prompt": "Start a live poll on my Review Demo app: which feature should we ship next, with the options Dark mode, Export and Offline. Then close it and tell me the result.",
+          "tools_triggered": "list_apps, create_live_poll, close_live_poll",
+          "expected_behavior": "Opens a panel with a bar chart, a share link and a QR code. Each vote on the link page grows the bars without another tool call. After closing, reports the final counts per option."
         },
         {
           "description": "Ask a person to approve a step",
@@ -55,31 +55,31 @@
   },
   "publication": {
     "countries": [],
-    "release_notes": "First ChatGPT release (0.8.0). Connect a Hibira account to list and create apps, get setup guides with your app's values, send test events, read usage, request approvals, send push notifications and run waiting rooms. Includes a get-started skill and skills for live updates, moving from Pusher, push notifications, approvals and waiting rooms.",
+    "release_notes": "0.9.0 adds live panels in ChatGPT: a waiting room panel that follows the queue as it moves, Live Charts that redraw as soon as an app publishes a number, and live polls with a share link and QR code. The hibira-mcp-usage skill documents the new tools.",
     "translations": {
       "ja-JP": {
         "subtitle": "リアルタイム通信とプッシュ通知",
-        "description": "Hibira は Web サイトとアプリ向けのホスト型リアルタイム基盤です。Pusher 互換の WebSocket チャンネル、iOS・Android・ブラウザへのプッシュ通知、承認リクエスト、仮想待合室を提供します。Hibira アカウントを接続すると、アプリの一覧表示と作成、アプリの値を埋め込んだ導入ガイドの取得、テストイベントの送信、使用量の確認、承認の依頼、チケット販売やセール向けの待合室の運用ができます。アプリの作成、実機へのプッシュ送信、人が並んでいる待合室の変更の前には必ず確認します。"
+        "description": "Hibira は Web サイトとアプリ向けのホスト型リアルタイム基盤です。Pusher 互換の WebSocket チャンネル、iOS・Android・ブラウザへのプッシュ通知、承認リクエスト、仮想待合室を提供します。Hibira アカウントを接続すると、アプリの一覧表示と作成、アプリの値を埋め込んだ導入ガイドの取得、テストイベントの送信、使用量の確認、承認の依頼、チケット販売やセール向けの待合室の運用ができます。アプリの作成、実機へのプッシュ送信、人が並んでいる待合室の変更の前には必ず確認します。ChatGPT では、待合室の行列の動き、バックエンドが数値を送った瞬間に更新されるチャート、投票に合わせて伸びるアンケートをライブパネルで表示できます。"
       },
       "ko-KR": {
         "subtitle": "실시간 채널과 푸시 알림",
-        "description": "Hibira는 웹사이트와 앱을 위한 호스팅형 실시간 서비스입니다. Pusher 호환 WebSocket 채널, iOS·Android·브라우저 푸시 알림, 승인 요청, 가상 대기실을 제공합니다. Hibira 계정을 연결하면 앱 목록 조회와 생성, 앱 값이 채워진 설정 가이드, 테스트 이벤트 전송, 사용량 확인, 승인 요청, 티켓 오픈이나 세일용 대기실 운영을 할 수 있습니다. 앱 생성, 실제 기기로 푸시 전송, 사람이 기다리는 대기실 변경 전에는 먼저 확인합니다."
+        "description": "Hibira는 웹사이트와 앱을 위한 호스팅형 실시간 서비스입니다. Pusher 호환 WebSocket 채널, iOS·Android·브라우저 푸시 알림, 승인 요청, 가상 대기실을 제공합니다. Hibira 계정을 연결하면 앱 목록 조회와 생성, 앱 값이 채워진 설정 가이드, 테스트 이벤트 전송, 사용량 확인, 승인 요청, 티켓 오픈이나 세일용 대기실 운영을 할 수 있습니다. 앱 생성, 실제 기기로 푸시 전송, 사람이 기다리는 대기실 변경 전에는 먼저 확인합니다. ChatGPT에서는 대기실 줄의 움직임, 백엔드가 숫자를 보내는 즉시 다시 그려지는 차트, 투표에 맞춰 늘어나는 설문을 라이브 패널로 볼 수 있습니다."
       },
       "zh-TW": {
         "subtitle": "即時頻道與推播通知",
-        "description": "Hibira 是為網站與 App 提供的託管即時服務：相容 Pusher 的 WebSocket 頻道、iOS／Android／瀏覽器推播通知、人工核准與虛擬排隊室。連結 Hibira 帳號後，可以列出及建立 App、取得已填入 App 參數的串接指南、送出測試事件、查看用量、請人核准步驟，並為搶票或限時特賣開設排隊室。建立 App、對真實裝置推播、或變更有人排隊的排隊室前都會先確認。"
+        "description": "Hibira 是為網站與 App 提供的託管即時服務：相容 Pusher 的 WebSocket 頻道、iOS／Android／瀏覽器推播通知、人工核准與虛擬排隊室。連結 Hibira 帳號後，可以列出及建立 App、取得已填入 App 參數的串接指南、送出測試事件、查看用量、請人核准步驟，並為搶票或限時特賣開設排隊室。建立 App、對真實裝置推播、或變更有人排隊的排隊室前都會先確認。在 ChatGPT 裡還能開啟即時面板：看排隊室的隊伍移動、後端一送出數字就更新的圖表，以及隨投票增長的即時投票。"
       },
       "zh-CN": {
         "subtitle": "实时频道与推送通知",
-        "description": "Hibira 是面向网站和 App 的托管实时服务：兼容 Pusher 的 WebSocket 频道、iOS／Android／浏览器推送通知、人工审批和虚拟排队室。连接 Hibira 账号后，可以列出和创建 App、获取已填入 App 参数的接入指南、发送测试事件、查看用量、请人审批步骤，并为抢票或限时促销开设排队室。创建 App、向真实设备推送或修改有人排队的排队室之前都会先确认。"
+        "description": "Hibira 是面向网站和 App 的托管实时服务：兼容 Pusher 的 WebSocket 频道、iOS／Android／浏览器推送通知、人工审批和虚拟排队室。连接 Hibira 账号后，可以列出和创建 App、获取已填入 App 参数的接入指南、发送测试事件、查看用量、请人审批步骤，并为抢票或限时促销开设排队室。创建 App、向真实设备推送或修改有人排队的排队室之前都会先确认。在 ChatGPT 里还能打开实时面板：查看排队室的队伍变化、后端一发出数字就更新的图表，以及随投票增长的实时投票。"
       },
       "th-TH": {
         "subtitle": "ช่องเรียลไทม์และพุช",
-        "description": "Hibira คือบริการเรียลไทม์แบบโฮสต์สำหรับเว็บไซต์และแอป มีช่อง WebSocket ที่เข้ากันได้กับ Pusher การแจ้งเตือนแบบพุชสำหรับ iOS, Android และเบราว์เซอร์ คำขออนุมัติ และห้องรอเสมือน เมื่อเชื่อมต่อบัญชี Hibira คุณสามารถดูและสร้างแอป รับคู่มือการตั้งค่าที่ใส่ค่าของแอปไว้แล้ว ส่งอีเวนต์ทดสอบ ดูปริมาณการใช้งาน ขออนุมัติ และเปิดห้องรอสำหรับการขายบัตรหรือแฟลชเซล ระบบจะถามก่อนสร้างแอป ส่งพุชไปยังอุปกรณ์จริง หรือเปลี่ยนห้องรอที่มีคนรออยู่"
+        "description": "Hibira คือบริการเรียลไทม์แบบโฮสต์สำหรับเว็บไซต์และแอป มีช่อง WebSocket ที่เข้ากันได้กับ Pusher การแจ้งเตือนแบบพุชสำหรับ iOS, Android และเบราว์เซอร์ คำขออนุมัติ และห้องรอเสมือน เมื่อเชื่อมต่อบัญชี Hibira คุณสามารถดูและสร้างแอป รับคู่มือการตั้งค่าที่ใส่ค่าของแอปไว้แล้ว ส่งอีเวนต์ทดสอบ ดูปริมาณการใช้งาน ขออนุมัติ และเปิดห้องรอสำหรับการขายบัตรหรือแฟลชเซล ระบบจะถามก่อนสร้างแอป ส่งพุชไปยังอุปกรณ์จริง หรือเปลี่ยนห้องรอที่มีคนรออยู่ ใน ChatGPT ยังเปิดแผงสดได้ เพื่อดูคิวในห้องรอที่ขยับ กราฟที่อัปเดตทันทีเมื่อแบ็กเอนด์ส่งตัวเลข และโพลที่แท่งเพิ่มขึ้นตามคะแนนโหวต"
       },
       "vi-VN": {
         "subtitle": "Kênh thời gian thực và push",
-        "description": "Hibira là dịch vụ thời gian thực được lưu trữ cho website và ứng dụng: kênh WebSocket tương thích Pusher, thông báo đẩy cho iOS, Android và trình duyệt, yêu cầu phê duyệt và phòng chờ ảo. Kết nối tài khoản Hibira để liệt kê và tạo ứng dụng, lấy hướng dẫn cài đặt đã điền sẵn thông số ứng dụng, gửi sự kiện thử, xem mức sử dụng, nhờ người phê duyệt và mở phòng chờ cho đợt bán vé hoặc flash sale. Hibira luôn hỏi trước khi tạo ứng dụng, gửi thông báo tới thiết bị thật hoặc thay đổi phòng chờ đang có người."
+        "description": "Hibira là dịch vụ thời gian thực được lưu trữ cho website và ứng dụng: kênh WebSocket tương thích Pusher, thông báo đẩy cho iOS, Android và trình duyệt, yêu cầu phê duyệt và phòng chờ ảo. Kết nối tài khoản Hibira để liệt kê và tạo ứng dụng, lấy hướng dẫn cài đặt đã điền sẵn thông số ứng dụng, gửi sự kiện thử, xem mức sử dụng, nhờ người phê duyệt và mở phòng chờ cho đợt bán vé hoặc flash sale. Hibira luôn hỏi trước khi tạo ứng dụng, gửi thông báo tới thiết bị thật hoặc thay đổi phòng chờ đang có người. Trong ChatGPT, bạn còn mở được bảng trực tiếp: theo dõi hàng chờ di chuyển, biểu đồ cập nhật ngay khi backend gửi số liệu và cuộc thăm dò có cột tăng theo từng lượt bình chọn."
       }
     }
   }

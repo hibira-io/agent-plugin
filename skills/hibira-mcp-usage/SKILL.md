@@ -42,6 +42,17 @@ If the Hibira tools are missing from your tool list, the server is not connected
 | `list_conversations` | read | Chat API: a user's conversations with unread counts |
 | `list_messages` | read | Chat API: a conversation's newest messages |
 
+### Live panels (MCP Apps)
+
+In hosts that show MCP Apps (Claude, ChatGPT) these tools open a live panel next to the chat. Elsewhere they return a text summary. They appear only when live panels are on for the account; if they are missing, use the tools above instead.
+
+| Tool | Needs | Use it for |
+|---|---|---|
+| `open_waiting_room_panel` | read | One waiting room's live panel: queue, admitted, rate and state, with open / pause / admit buttons that ask before changing the room |
+| `open_live_chart` | read | A KPI number, line, bar, progress or funnel chart on a private channel of the app. Anything that publishes to that channel (`publish_event`, the HTTP API, a workflow) redraws it at once |
+| `create_live_poll` | write | A poll with a share link and QR code; the bars grow as people vote |
+| `close_live_poll` | write | Stop a poll's voting and get the final counts |
+
 ## Typical flow: wire Hibira into the current project
 
 1. `list_apps`. If there is no suitable app, confirm with the user, then `create_app`.
@@ -66,4 +77,5 @@ If the Hibira tools are missing from your tool list, the server is not connected
 - **Confirm before acting on production.** Ask before `create_app`, before `update_app` on an app that is in use (disabling an app or narrowing allowed origins drops live clients), and before `send_push` to real users.
 - **Chat messages reach real users.** Ask before `send_message` on a production app; use `push: "never"` and fixed test user IDs when testing. See the `chat-api` skill.
 - **Waiting rooms hold real people.** Ask before pausing, closing or admitting a large batch from a room with people in it. See the `waiting-room` skill.
+- **Live panels act as the user.** Buttons in a panel call the same tools with the user's own sign-in, so the rules above still apply (ask before pausing a room with people in it). A live poll's link is public: share it only where the user wants votes from.
 - **Approvals are for people.** Use `request_approval` when a person must decide; share the link it returns and poll with `get_approval`. The first answer wins.
