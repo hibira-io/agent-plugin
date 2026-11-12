@@ -1,0 +1,23 @@
+{
+  "name": "hibira-merchant-ops",
+  "version": "0.1.0",
+  "description": "Hibira for store and event teams: a sale-day runbook that runs your waiting room and watches Live Chat during a drop, and a daily support digest of conversations, handoffs and ratings as a sheet.",
+  "author": {
+    "name": "Hibira",
+    "email": "support@hibira.io"
+  },
+  "homepage": "https://hibira.io/guides/agent-plugin",
+  "repository": "https://github.com/hibira-io/agent-plugin",
+  "license": "MIT",
+  "keywords": [
+    "hibira",
+    "waiting-room",
+    "flash-sale",
+    "ticketing",
+    "live-chat",
+    "customer-service",
+    "ecommerce"
+  ],
+  "privacyPolicyUrl": "https://hibira.io/legal/privacy",
+  "icon": ".claude-plugin/icon.png"
+}
