@@ -148,6 +148,10 @@ Each server signs in separately, the first time you use it.
 
 Try: *"Add live order updates to this app with Hibira"*, *"Move this project from Pusher to Hibira"* *"Put a waiting room in front of our ticket drop page"* *"Connect our admin panel to Hibira Live Chat single sign-on"*, *"Add Hibira Live Chat to this site and fill its knowledge base from our FAQ"* or *"Ask Gaya which of these two headlines works better"*.
 
+**For store and event teams**
+
+A second plugin in this marketplace, `hibira-merchant-ops` ([`plugins/merchant-ops`](plugins/merchant-ops)), is for the people who run the sale rather than build the site: a sale-day runbook (waiting room setup, the live panel, rate changes, notices, sold out, the Live Chat queue) and a daily Live Chat support digest as a sheet. Install it with `claude plugin install hibira-merchant-ops@hibira`.
+
 No plugin? Paste the short rules snippet from [hibira.io/mcp-server](https://hibira.io/mcp-server#rules) into `CLAUDE.md`, `AGENTS.md` or a Cursor rule.
 
 ## Repository layout
@@ -155,6 +159,7 @@ No plugin? Paste the short rules snippet from [hibira.io/mcp-server](https://hib
 | Path | For |
 |---|---|
 | `skills/` | The skills, shared by every client |
+| `plugins/merchant-ops/` | The `hibira-merchant-ops` plugin (its own manifest, MCP servers, skills and commands; versioned separately) |
 | `.mcp.json` | MCP server (Claude Code, Codex, Cursor, Copilot, VS Code) |
 | `.claude-plugin/` | Claude Code plugin and marketplace (also read by Copilot CLI and VS Code) |
 | `.codex-plugin/`, `.agents/plugins/` | Codex plugin and marketplace |
@@ -164,7 +169,7 @@ No plugin? Paste the short rules snippet from [hibira.io/mcp-server](https://hib
 | `openai/submission.json` | ChatGPT plugin directory review data (test cases, release notes, translations) |
 | `lobehub/lhm.plugin.json` | [LobeHub MCP marketplace](https://lobehub.com/mcp) listing (`npx -y @lobehub/market-cli plugin publish https://github.com/hibira-io/agent-plugin --dir lobehub`) |
 
-The `check` workflow (`.github/workflows/check.yml`) checks on every push that each manifest carries the same version and MCP URLs. The repo ships no script files, because the Claude plugin directory refuses them from publishers that are not Verified.
+The `check` workflow (`.github/workflows/check.yml`) checks on every push that each manifest carries the same version and MCP URLs (the merchant ops plugin is checked against its own version), and validates both plugins. The repo ships no script files, because the Claude plugin directory refuses them from publishers that are not Verified.
 
 For the ChatGPT plugin directory, the same workflow builds `hibira-chatgpt.zip` and attaches it to the run as an artifact (run it by hand from the Actions tab to set a demo video URL): the Codex manifest plus `openai/submission.json`, the `hibira` MCP server only (the directory takes one server per plugin) and every skill except the Live Chat and Gaya ones. Upload it at platform.openai.com/plugins.
 

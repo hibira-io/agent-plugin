@@ -71,7 +71,17 @@ jobs:
             if (u !== GAYA_URL) errors.push(`${file}: Gaya MCP URL ${u}, expected ${GAYA_URL}`);
           }
 
-          for (const p of ['assets/icon.png', '.claude-plugin/icon.png']) {
+          // The merchant ops plugin (plugins/merchant-ops) versions on its own.
+          const ops = 'plugins/merchant-ops';
+          const opsVersion = read(`${ops}/.claude-plugin/plugin.json`).version;
+          const opsEntry = read('.claude-plugin/marketplace.json').plugins.find((p) => p.name === 'hibira-merchant-ops');
+          if (!opsEntry) errors.push('marketplace.json does not list hibira-merchant-ops');
+          else if (opsEntry.version !== opsVersion) errors.push(`marketplace.json hibira-merchant-ops version ${opsEntry.version}, expected ${opsVersion}`);
+          const opsMcp = read(`${ops}/.mcp.json`).mcpServers;
+          if (opsMcp.hibira?.url !== MCP_URL) errors.push(`${ops}/.mcp.json: MCP URL ${opsMcp.hibira?.url}, expected ${MCP_URL}`);
+          if (opsMcp['hibira-live-chat']?.url !== LIVE_CHAT_URL) errors.push(`${ops}/.mcp.json: Live Chat MCP URL ${opsMcp['hibira-live-chat']?.url}, expected ${LIVE_CHAT_URL}`);
+
+          for (const p of ['assets/icon.png', '.claude-plugin/icon.png', 'plugins/merchant-ops/.claude-plugin/icon.png']) {
             if (!existsSync(p)) errors.push(`${p} is missing`);
           }
 
@@ -151,3 +161,4 @@ jobs:
           name: hibira-chatgpt
           path: dist/hibira-chatgpt.zip
       - run: npx -y @anthropic-ai/claude-code plugin validate .
+      - run: npx -y @anthropic-ai/claude-code plugin validate plugins/merchant-ops
