@@ -1,0 +1,1192 @@
+{
+  "identifier": "hibira",
+  "name": "Hibira",
+  "version": "1.0.0",
+  "description": "Create and manage Hibira realtime apps (Pusher protocol compatible) from your AI agent: publish events, send push notifications, ask a person to approve, run waiting rooms and in-app chat.",
+  "author": "Hibira",
+  "authorUrl": "https://hibira.io",
+  "homepage": "https://hibira.io/mcp-server",
+  "icon": "https://raw.githubusercontent.com/hibira-io/agent-plugin/main/assets/icon.png",
+  "cloudEndpoint": "https://hibira.io/mcp",
+  "tags": [
+    "realtime",
+    "websocket",
+    "pusher",
+    "push-notifications",
+    "human-in-the-loop",
+    "approvals",
+    "waiting-room",
+    "chat"
+  ],
+  "tools": [
+    {
+      "name": "get_account",
+      "title": "Get account",
+      "description": "The signed-in Hibira account: plan, plan limits (shared by all of the account's apps), current totals, and the WebSocket host apps connect to.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {},
+        "type": "object"
+      },
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false,
+        "readOnlyHint": true,
+        "title": "Get account"
+      }
+    },
+    {
+      "name": "list_apps",
+      "title": "List apps",
+      "description": "The account's Hibira apps with their IDs, keys, allowed origins, settings and today's usage. Secrets are not included.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {},
+        "type": "object"
+      },
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false,
+        "readOnlyHint": true,
+        "title": "List apps"
+      }
+    },
+    {
+      "name": "get_app",
+      "title": "Get app",
+      "description": "One app's settings and connection details (host, port, TLS, key, env variable names) and its live counters where the plan has them. The secret is not included.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app_id": {
+            "description": "The app's ID (app_...), from list_apps.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "app_id"
+        ],
+        "type": "object"
+      },
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false,
+        "readOnlyHint": true,
+        "title": "Get app"
+      }
+    },
+    {
+      "name": "create_app",
+      "title": "Create app",
+      "description": "Create a Hibira app. Returns its ID, key and secret; the secret is shown only this once, so write it straight to a git-ignored env file and never print or commit it. Browsers may only connect from allowed_origins (the Free plan needs exact origins such as http://localhost:5173, no \"*\").",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "allowed_origins": {
+            "description": "Origins browsers may connect from, such as https://example.com or http://localhost:3000.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "client_events": {
+            "description": "Allow client events (client-* events sent by browsers on private and presence channels). Default false.",
+            "type": "boolean"
+          },
+          "name": {
+            "description": "A name for the app, such as the project name and environment (\"shop-dev\").",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "type": "object"
+      },
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false,
+        "readOnlyHint": false,
+        "title": "Create app"
+      }
+    },
+    {
+      "name": "update_app",
+      "title": "Update app",
+      "description": "Change an app's name, allowed origins, client events, subscriber counts, channel history, HTTP API IP allowlist or whether it is enabled. Only the given fields change; allowed_origins and api_allowlist replace the whole list.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "allowed_origins": {
+            "description": "The full new list of allowed origins.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "api_allowlist": {
+            "description": "The full new list of IP addresses or CIDR ranges the app's HTTP API accepts requests from (Advanced plan and up, at most 50); an empty list accepts any address.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "app_id": {
+            "description": "The app's ID (app_...), from list_apps.",
+            "type": "string"
+          },
+          "client_events": {
+            "type": "boolean"
+          },
+          "enabled": {
+            "description": "false stops the app accepting connections and events.",
+            "type": "boolean"
+          },
+          "history": {
+            "description": "Keep each channel's recent events so reconnecting clients can catch up with pusher:rewind (plans from Hobby up).",
+            "type": "boolean"
+          },
+          "name": {
+            "description": "New name.",
+            "type": "string"
+          },
+          "subscription_count": {
+            "description": "Send subscribers pusher:subscription_count (online counters, including the embed script's data-hibira-online).",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "app_id"
+        ],
+        "type": "object"
+      },
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false,
+        "title": "Update app"
+      }
+    },
+    {
+      "name": "get_usage",
+      "title": "Get usage",
+      "description": "Daily published events and peak connections for the last N UTC days (oldest first), for one app or the whole account, with the plan's limits (shared by all of the account's apps).",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app_id": {
+            "description": "An app's ID; leave out for the whole account.",
+            "type": "string"
+          },
+          "days": {
+            "description": "Days of history (default 7).",
+            "maximum": 730,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false,
+        "readOnlyHint": true,
+        "title": "Get usage"
+      }
+    },
+    {
+      "name": "send_test_event",
+      "title": "Send test event",
+      "description": "Publish one event to a channel of an app, as the server API would, to check that subscribers receive it. It counts toward the app's daily message quota.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app_id": {
+            "description": "The app's ID (app_...), from list_apps.",
+            "type": "string"
+          },
+          "channel": {
+            "description": "Channel name, such as my-channel or private-orders.",
+            "type": "string"
+          },
+          "data": {
+            "description": "Event data: a string, or any JSON value (sent as its JSON text)."
+          },
+          "event": {
+            "description": "Event name, such as my-event.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "app_id",
+          "channel",
+          "event"
+        ],
+        "type": "object"
+      },
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": false,
+        "title": "Send test event"
+      }
+    },
+    {
+      "name": "watch_debug_events",
+      "title": "Watch debug console",
+      "description": "Listen to an app's debug console for a few seconds and return what happened: connections, subscriptions, API messages and (on paid plans) client events, webhooks and errors. Start it, then trigger the action you want to observe.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app_id": {
+            "description": "The app's ID (app_...), from list_apps.",
+            "type": "string"
+          },
+          "max_entries": {
+            "description": "Stop early after this many entries (default 100).",
+            "maximum": 500,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "seconds": {
+            "description": "How long to listen (default 10).",
+            "maximum": 30,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "app_id"
+        ],
+        "type": "object"
+      },
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false,
+        "readOnlyHint": true,
+        "title": "Watch debug console"
+      }
+    },
+    {
+      "name": "publish_event",
+      "title": "Publish event",
+      "description": "Publish an event to one or more channels of an app, as the server HTTP API would, so that subscribed browsers and apps receive it in real time. Use it to stream an agent's or workflow's progress, status and results to users. Each channel counts as one message toward the plan's daily quota; data must fit the plan's message size limit.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app_id": {
+            "description": "The app's ID (app_...), from list_apps.",
+            "type": "string"
+          },
+          "channels": {
+            "description": "Channel names, such as private-user-42 or presence-run-7.",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 100,
+            "minItems": 1,
+            "type": "array"
+          },
+          "data": {
+            "description": "Event data: a string, or any JSON value (sent as its JSON text)."
+          },
+          "event": {
+            "description": "Event name, such as run.progress. Names starting with pusher: are reserved.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "app_id",
+          "channels",
+          "event"
+        ],
+        "type": "object"
+      },
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": false,
+        "title": "Publish event"
+      }
+    },
+    {
+      "name": "send_push",
+      "title": "Send push notification",
+      "description": "Send a push notification through the app's Hibira Push instance (Beams-compatible) to devices subscribed to interests, or to signed-in user IDs. url, if given, opens when the notification is tapped. Push must be enabled for the app in the portal.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app_id": {
+            "description": "The app's ID (app_...), from list_apps.",
+            "type": "string"
+          },
+          "body": {
+            "description": "Notification text.",
+            "type": "string"
+          },
+          "interests": {
+            "description": "Interests to send to, such as orders or user-42.",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 100,
+            "type": "array"
+          },
+          "title": {
+            "description": "Notification title.",
+            "type": "string"
+          },
+          "url": {
+            "description": "Optional https link opened when the notification is tapped.",
+            "type": "string"
+          },
+          "users": {
+            "description": "User IDs to send to instead of interests.",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 1000,
+            "type": "array"
+          }
+        },
+        "required": [
+          "app_id",
+          "title",
+          "body"
+        ],
+        "type": "object"
+      },
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": false,
+        "title": "Send push notification"
+      }
+    },
+    {
+      "name": "request_approval",
+      "title": "Request approval",
+      "description": "Ask a person to approve or choose before the agent continues (human in the loop). Returns a Hibira-hosted answer link: share it in chat, email or another channel, or let Hibira deliver it with push_interests / push_users and to a channel (an \"approval\" event in the Hibira approvals protocol, sent again when it is decided). Then call get_approval to wait for the answer: status approved means the first option was chosen, rejected means another one. Anyone with the link can answer; the first answer counts.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app_id": {
+            "description": "The app's ID (app_...), from list_apps.",
+            "type": "string"
+          },
+          "channel": {
+            "description": "Optional channel to announce the request and its answer on. private-hibira-approvals.mcp.inbox is the inbox the @hibira-io/approvals components show.",
+            "type": "string"
+          },
+          "details": {
+            "description": "Optional context shown to the person: what the agent wants to do and why (at most 4000 characters).",
+            "type": "string"
+          },
+          "expires_in_minutes": {
+            "description": "How long the request stays open (default 60, at most 7 days).",
+            "maximum": 10080,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "options": {
+            "description": "2 to 4 choices; the first is the one that approves (default [\"Approve\", \"Reject\"]). Write them in the person's language.",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 4,
+            "minItems": 2,
+            "type": "array"
+          },
+          "push_interests": {
+            "description": "Optional push interests to notify with the link.",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 100,
+            "type": "array"
+          },
+          "push_users": {
+            "description": "Optional push user IDs to notify with the link.",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 1000,
+            "type": "array"
+          },
+          "title": {
+            "description": "What needs a decision, as a short question (at most 200 characters), such as \"Refund order #1042 for $89?\"",
+            "type": "string"
+          }
+        },
+        "required": [
+          "app_id",
+          "title"
+        ],
+        "type": "object"
+      },
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": false,
+        "title": "Request approval"
+      }
+    },
+    {
+      "name": "get_approval",
+      "title": "Get approval",
+      "description": "The status of a request_approval request: pending, approved (the first option was chosen), rejected (another option) or expired; answered requests include the choice and any comment. Give wait_seconds to wait for an answer; call again while it is still pending.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "approval_id": {
+            "description": "The approval's ID (apr_...), from request_approval.",
+            "type": "string"
+          },
+          "wait_seconds": {
+            "description": "Wait up to this long for an answer (default 0: return at once).",
+            "maximum": 25,
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "approval_id"
+        ],
+        "type": "object"
+      },
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false,
+        "readOnlyHint": true,
+        "title": "Get approval"
+      }
+    },
+    {
+      "name": "get_integration_guide",
+      "title": "Get integration guide",
+      "description": "Step-by-step instructions for adding Hibira to a project with a given library or framework, with the connection details filled in. Leave out sdk to list the available guides.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app_id": {
+            "description": "Optional app ID whose ID and key are filled into the guide.",
+            "type": "string"
+          },
+          "sdk": {
+            "description": "Guide ID from the list, such as laravel, javascript, node, python, go or swift.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false,
+        "readOnlyHint": true,
+        "title": "Get integration guide"
+      }
+    },
+    {
+      "name": "create_conversation",
+      "title": "Create conversation",
+      "description": "Create a Chat API conversation with its members, or replace the name, metadata and members of the one with that ID. Members get a chat.conversation event on their #server-to-user-<user_id> channel (clients call pusher.signin to receive it). Up to 100 members. The Chat API is in beta: the account needs it turned on (see https://hibira.io/chat-api).",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app_id": {
+            "description": "The app's ID (app_...), from list_apps.",
+            "type": "string"
+          },
+          "conversation_id": {
+            "description": "The conversation's ID, chosen by you: 1 to 128 of A-Z a-z 0-9 _ - = @ , . ; such as order-1042 or dm-ann-bob.",
+            "type": "string"
+          },
+          "members": {
+            "description": "The user IDs of the members (the full list; leave out to keep an existing conversation's members).",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 100,
+            "type": "array"
+          },
+          "metadata": {
+            "description": "Your own JSON object, at most 4,096 bytes, such as {\"kind\": \"support\"}.",
+            "type": "object"
+          },
+          "name": {
+            "description": "A display name, such as \"Order #1042\" (at most 100 characters).",
+            "type": "string"
+          }
+        },
+        "required": [
+          "app_id",
+          "conversation_id"
+        ],
+        "type": "object"
+      },
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false,
+        "title": "Create conversation"
+      }
+    },
+    {
+      "name": "send_message",
+      "title": "Send chat message",
+      "description": "Send a message in a Chat API conversation on behalf of a member, as the customer's server would: it is stored with the conversation's next seq, sent live to every member (chat.message) and the chat_message webhook, and pushed to members who are not connected unless push is never. The word filter, bans and mutes apply. The Chat API is in beta: the account needs it turned on (see https://hibira.io/chat-api).",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app_id": {
+            "description": "The app's ID (app_...), from list_apps.",
+            "type": "string"
+          },
+          "conversation_id": {
+            "description": "The conversation's ID, chosen by you: 1 to 128 of A-Z a-z 0-9 _ - = @ , . ; such as order-1042 or dm-ann-bob.",
+            "type": "string"
+          },
+          "metadata": {
+            "description": "Optional JSON object, at most 4,096 bytes, such as {\"reply_to\": 2}.",
+            "type": "object"
+          },
+          "name": {
+            "description": "Optional sender name shown with the message (at most 100 characters).",
+            "type": "string"
+          },
+          "push": {
+            "description": "Who gets a push notification: members who are not connected (offline, the default), every member but the sender (always) or nobody (never).",
+            "enum": [
+              "offline",
+              "always",
+              "never"
+            ],
+            "type": "string"
+          },
+          "text": {
+            "description": "The message text (at most 4,000 characters).",
+            "type": "string"
+          },
+          "user_id": {
+            "description": "The sender: a member of the conversation.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "app_id",
+          "conversation_id",
+          "user_id",
+          "text"
+        ],
+        "type": "object"
+      },
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": false,
+        "title": "Send chat message"
+      }
+    },
+    {
+      "name": "list_conversations",
+      "title": "List conversations",
+      "description": "A user's Chat API conversations, latest activity first, each with its members, last_seq and the user's unread count. Pass next as before to get the following page. The Chat API is in beta: the account needs it turned on (see https://hibira.io/chat-api).",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app_id": {
+            "description": "The app's ID (app_...), from list_apps.",
+            "type": "string"
+          },
+          "before": {
+            "description": "The next value of a previous page.",
+            "type": "string"
+          },
+          "limit": {
+            "description": "How many (default 50).",
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "user_id": {
+            "description": "A user ID, the same one the user signs in with on the realtime connection (pusher.signin).",
+            "type": "string"
+          }
+        },
+        "required": [
+          "app_id",
+          "user_id"
+        ],
+        "type": "object"
+      },
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false,
+        "readOnlyHint": true,
+        "title": "List conversations"
+      }
+    },
+    {
+      "name": "list_messages",
+      "title": "List chat messages",
+      "description": "Messages of a Chat API conversation, oldest first: the newest n with last, or those after a seq with after (as a client that was offline catches up). The Chat API is in beta: the account needs it turned on (see https://hibira.io/chat-api).",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "after": {
+            "description": "Only messages with a higher seq.",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "app_id": {
+            "description": "The app's ID (app_...), from list_apps.",
+            "type": "string"
+          },
+          "conversation_id": {
+            "description": "The conversation's ID, chosen by you: 1 to 128 of A-Z a-z 0-9 _ - = @ , . ; such as order-1042 or dm-ann-bob.",
+            "type": "string"
+          },
+          "last": {
+            "description": "The newest n messages (default 50 when after is not given).",
+            "maximum": 200,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "limit": {
+            "description": "With after: how many (default 50).",
+            "maximum": 200,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "app_id",
+          "conversation_id"
+        ],
+        "type": "object"
+      },
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false,
+        "readOnlyHint": true,
+        "title": "List chat messages"
+      }
+    },
+    {
+      "name": "delete_app",
+      "title": "Delete app",
+      "description": "Permanently delete an app: its key and secret stop working, clients can no longer connect, and its push instance, webhooks and settings are removed. This cannot be undone. Before calling it, show the user the app's name and ID and ask them to confirm; then pass the app's exact name as confirm. Never delete an app the user did not name.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app_id": {
+            "description": "The app's ID (app_...), from list_apps.",
+            "type": "string"
+          },
+          "confirm": {
+            "description": "The app's exact name, as list_apps or get_app shows it, typed here only after the user has agreed to this action for that app.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "app_id",
+          "confirm"
+        ],
+        "type": "object"
+      },
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": false,
+        "readOnlyHint": false,
+        "title": "Delete app"
+      }
+    },
+    {
+      "name": "rotate_app_secret",
+      "title": "Rotate app secret",
+      "description": "Replace an app's secret, for example after it leaked. Returns the new secret once: write it straight to the git-ignored env file or secret store the old one came from, never into code, commits or your reply. The old secret keeps working for grace_minutes (default 1440, 24 hours) so servers can be updated; 0 stops it at once, which breaks every server still using it. Ask the user first and pass the app's exact name as confirm.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app_id": {
+            "description": "The app's ID (app_...), from list_apps.",
+            "type": "string"
+          },
+          "confirm": {
+            "description": "The app's exact name, as list_apps or get_app shows it, typed here only after the user has agreed to this action for that app.",
+            "type": "string"
+          },
+          "grace_minutes": {
+            "description": "How long the old secret keeps working (default 1440; at most 7 days; 0 = stop at once).",
+            "maximum": 10080,
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "app_id",
+          "confirm"
+        ],
+        "type": "object"
+      },
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": false,
+        "readOnlyHint": false,
+        "title": "Rotate app secret"
+      }
+    },
+    {
+      "name": "list_channels",
+      "title": "List channels",
+      "description": "An app's occupied channels right now (channels with at least one subscriber), busiest first unless sort is name, with subscription counts and, for presence channels, user counts. prefix narrows them, such as presence- or private-orders-; call again with next_cursor for more. On the Free plan only the busiest channels are listed, without prefix or paging.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app_id": {
+            "description": "The app's ID (app_...), from list_apps.",
+            "type": "string"
+          },
+          "cursor": {
+            "description": "next_cursor from the previous call, with the same prefix and sort.",
+            "type": "string"
+          },
+          "limit": {
+            "description": "Most channels to return (default 50).",
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "prefix": {
+            "description": "Only channels whose names start with this, such as presence-.",
+            "type": "string"
+          },
+          "sort": {
+            "description": "subscriptions (default, busiest first) or name.",
+            "enum": [
+              "subscriptions",
+              "name"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "app_id"
+        ],
+        "type": "object"
+      },
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false,
+        "readOnlyHint": true,
+        "title": "List channels"
+      }
+    },
+    {
+      "name": "get_presence_members",
+      "title": "Get presence members",
+      "description": "Who is in a presence channel right now: each member's user ID and user_info (as the app's auth endpoint signed it), and the member count. presence-large- channels page with cursor.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app_id": {
+            "description": "The app's ID (app_...), from list_apps.",
+            "type": "string"
+          },
+          "channel": {
+            "description": "A presence channel, such as presence-room-7.",
+            "type": "string"
+          },
+          "cursor": {
+            "description": "next_cursor from the previous call (presence-large- channels only).",
+            "type": "string"
+          },
+          "limit": {
+            "description": "Most members to return (default 100).",
+            "maximum": 1000,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "app_id",
+          "channel"
+        ],
+        "type": "object"
+      },
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false,
+        "readOnlyHint": true,
+        "title": "Get presence members"
+      }
+    },
+    {
+      "name": "get_webhooks",
+      "title": "Get webhooks",
+      "description": "An app's webhook endpoints with the event types each one gets, the plan's endpoint limit, the supported event types, and the latest deliveries (status, error, response) for debugging. Webhooks are signed with the app's key and secret (X-Pusher-Key, X-Pusher-Signature), as on Pusher.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app_id": {
+            "description": "The app's ID (app_...), from list_apps.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "app_id"
+        ],
+        "type": "object"
+      },
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false,
+        "readOnlyHint": true,
+        "title": "Get webhooks"
+      }
+    },
+    {
+      "name": "set_webhooks",
+      "title": "Set webhooks",
+      "description": "Replace an app's webhook endpoints with the given list (https URLs; each with optional event types). An empty list removes them all. Call get_webhooks first and keep the endpoints the user did not ask to change.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app_id": {
+            "description": "The app's ID (app_...), from list_apps.",
+            "type": "string"
+          },
+          "webhooks": {
+            "description": "The full new list of endpoints.",
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "events": {
+                  "description": "Event types to send; leave out or empty for all of them.",
+                  "items": {
+                    "enum": [
+                      "channel_occupied",
+                      "channel_vacated",
+                      "member_added",
+                      "member_removed",
+                      "client_event",
+                      "subscription_count",
+                      "cache_miss",
+                      "chat_message"
+                    ],
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "url": {
+                  "description": "The endpoint, such as https://example.com/hibira/webhooks.",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "url"
+              ],
+              "type": "object"
+            },
+            "maxItems": 5,
+            "type": "array"
+          }
+        },
+        "required": [
+          "app_id",
+          "webhooks"
+        ],
+        "type": "object"
+      },
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false,
+        "title": "Set webhooks"
+      }
+    },
+    {
+      "name": "test_webhook",
+      "title": "Test webhook",
+      "description": "Send a sample signed webhook to one of the app's saved endpoints and return the delivery result (HTTP status, time, error, start of the response), to check that the user's server accepts and verifies it.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app_id": {
+            "description": "The app's ID (app_...), from list_apps.",
+            "type": "string"
+          },
+          "url": {
+            "description": "One of the app's saved endpoint URLs, from get_webhooks.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "app_id",
+          "url"
+        ],
+        "type": "object"
+      },
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": false,
+        "title": "Test webhook"
+      }
+    },
+    {
+      "name": "list_waiting_rooms",
+      "title": "List waiting rooms",
+      "description": "An app's virtual waiting rooms with their live queue: state (open, paused, closed), how many are waiting, how many were admitted, the admission rate, start time, notice and return URLs, plus the account's waiting room allowance.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app_id": {
+            "description": "The app's ID (app_...), from list_apps.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "app_id"
+        ],
+        "type": "object"
+      },
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false,
+        "readOnlyHint": true,
+        "title": "List waiting rooms"
+      }
+    },
+    {
+      "name": "get_waiting_room",
+      "title": "Get waiting room",
+      "description": "One waiting room's live queue (waiting, admitted, issued, rate, state). Call it again to watch the line during a drop.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app_id": {
+            "description": "The app's ID (app_...), from list_apps.",
+            "type": "string"
+          },
+          "room": {
+            "description": "The room's ID: 1 to 64 letters, digits, - or _, such as presale. It is part of the waiting page's URL.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "app_id",
+          "room"
+        ],
+        "type": "object"
+      },
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false,
+        "readOnlyHint": true,
+        "title": "Get waiting room"
+      }
+    },
+    {
+      "name": "set_waiting_room",
+      "title": "Create or change waiting room",
+      "description": "Create a virtual waiting room, or change one: only the given fields change. Visitors without a pass go to the hosted waiting page https://ws.hibira.io/wait/APP_KEY/ROOM?return=URL, take a queue number and are let in (at admit_per_minute, or in capacity mode whenever fewer than max_active_users are on the site) with a pass signed by the app secret, which the protected site checks. return_urls must include the page visitors come back to. Ask the user before pausing or closing a room that has people waiting.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "admit_per_minute": {
+            "description": "How many visitors to let in per minute (rate mode). Required when creating a rate-mode room.",
+            "minimum": 1,
+            "type": "integer"
+          },
+          "app_id": {
+            "description": "The app's ID (app_...), from list_apps.",
+            "type": "string"
+          },
+          "brand_color": {
+            "description": "Accent colour of the waiting page as #rrggbb, such as #1d4ed8 (buttons, progress bar, highlights; adjusted per light and dark so it stays readable); an empty string goes back to Hibira's red.",
+            "type": "string"
+          },
+          "burst": {
+            "description": "How many may walk straight in when nobody is waiting (default: ten seconds of admissions).",
+            "minimum": 1,
+            "type": "integer"
+          },
+          "hide_powered_by": {
+            "description": "Hide the small \"Powered by Hibira\" line and Hibira's name in the page title. Needs a paid waiting room plan (Drop, Launch, Event, an event pass while it runs, or Enterprise terms).",
+            "type": "boolean"
+          },
+          "live_chat": {
+            "description": "A Live Chat workspace ID (ws_…) whose chat, with its AI assistant, the waiting page shows so people in line can ask questions; an empty string removes it. The workspace must list the site of one of return_urls. Needs the Event waiting room plan.",
+            "type": "string"
+          },
+          "logo_url": {
+            "description": "The merchant's logo (https image URL) shown at the top of the waiting page instead of Hibira's; an empty string removes it.",
+            "type": "string"
+          },
+          "max_active_users": {
+            "description": "Capacity mode: the most visitors on the site at once. Required with mode capacity.",
+            "maximum": 200000,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "message": {
+            "description": "The merchant's own text under the waiting page's explanation, such as purchase limits or what happens next (at most 600 characters, line breaks kept); an empty string removes it.",
+            "type": "string"
+          },
+          "mode": {
+            "description": "rate (default) admits admit_per_minute; capacity admits whenever fewer than max_active_users are active on the site, so nobody queues until it is full. A visitor counts as active from taking a pass until session_seconds after that or their last heartbeat (POST /waitroom/APP_KEY/ROOM/heartbeat with the pass), or until they leave (POST .../leave).",
+            "enum": [
+              "rate",
+              "capacity"
+            ],
+            "type": "string"
+          },
+          "notice": {
+            "description": "An announcement shown on the waiting page, such as \"Zone A is sold out\" (at most 280 characters); an empty string removes it.",
+            "type": "string"
+          },
+          "one_per_user": {
+            "description": "Require a user token signed by the customer's server (?user= on the waiting page link) and give each user ID one number. See docs/waiting-rooms.md for the token format.",
+            "type": "boolean"
+          },
+          "pass_ttl_seconds": {
+            "description": "How long a pass stays valid (default 1800).",
+            "maximum": 86400,
+            "minimum": 60,
+            "type": "integer"
+          },
+          "return_urls": {
+            "description": "The full list of addresses the waiting page may send admitted visitors back to (https, or http for localhost; same host and path prefix). The first is the default.",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 10,
+            "type": "array"
+          },
+          "room": {
+            "description": "The room's ID: 1 to 64 letters, digits, - or _, such as presale. It is part of the waiting page's URL.",
+            "type": "string"
+          },
+          "session_seconds": {
+            "description": "Capacity mode: how long a visitor counts as active after their pass or last heartbeat (default 300).",
+            "maximum": 86400,
+            "minimum": 30,
+            "type": "integer"
+          },
+          "shuffle": {
+            "description": "Give everyone who joins before starts_at a random place when the line starts instead of arrival order, so bots racing the start gain nothing. Can't change while visitors from that draw still wait.",
+            "type": "boolean"
+          },
+          "starts_at": {
+            "description": "RFC 3339 time before which the line does not move, such as 2026-12-04T12:00:00+09:00; an empty string clears it. Visitors who arrive early keep arrival order unless shuffle is on.",
+            "type": "string"
+          },
+          "state": {
+            "description": "open admits at the rate; paused keeps the queue but admits nobody; closed refuses new visitors (sold out). Passes already issued stay valid.",
+            "enum": [
+              "open",
+              "paused",
+              "closed"
+            ],
+            "type": "string"
+          },
+          "theme": {
+            "description": "Waiting page colours: auto (default) follows the visitor's system, or always light or always dark.",
+            "enum": [
+              "auto",
+              "light",
+              "dark"
+            ],
+            "type": "string"
+          },
+          "title": {
+            "description": "Shown on the waiting page, such as \"Winter tour presale\" (at most 120 characters).",
+            "type": "string"
+          },
+          "turnstile": {
+            "description": "Require a Cloudflare Turnstile bot check on the hosted waiting page before a visitor gets a number.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "app_id",
+          "room"
+        ],
+        "type": "object"
+      },
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false,
+        "title": "Create or change waiting room"
+      }
+    },
+    {
+      "name": "admit_waiting_room",
+      "title": "Admit from waiting room",
+      "description": "Let the next count visitors in now, on top of the admission rate (also while the room is paused), at most up to the last number handed out. Ask the user before admitting a large batch: it sends that many people to the protected page at once.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app_id": {
+            "description": "The app's ID (app_...), from list_apps.",
+            "type": "string"
+          },
+          "count": {
+            "description": "How many to let in.",
+            "maximum": 10000000,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "room": {
+            "description": "The room's ID: 1 to 64 letters, digits, - or _, such as presale. It is part of the waiting page's URL.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "app_id",
+          "room",
+          "count"
+        ],
+        "type": "object"
+      },
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": false,
+        "title": "Admit from waiting room"
+      }
+    }
+  ],
+  "prompts": [],
+  "resources": []
+}

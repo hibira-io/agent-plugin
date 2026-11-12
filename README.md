@@ -16,7 +16,8 @@ Hibira for AI coding agents: the [Hibira MCP server](https://hibira.io/mcp-serve
 | Cursor | ✅ | ✅ | [Plugin or one click](#cursor) |
 | VS Code (Copilot Chat) | ✅ | ✅ | [Plugin or one click](#vs-code) |
 | OpenCode | ✅ | ✅ | [Config](#opencode) |
-| Windsurf, Cline, Kilo, Zed, Amp, Continue, … | ✅ | ✅ | [`npx skills` + MCP URL](#other-agents) |
+| Zed | ✅ | ✅ | [Settings](#zed) |
+| Windsurf, Cline, Kilo, Amp, Continue, … | ✅ | ✅ | [`npx skills` + MCP URL](#other-agents) |
 | Claude.ai, ChatGPT | — | ✅ | [Custom connector](https://hibira.io/mcp-connectors) |
 
 The MCP server signs in with OAuth. There is no API key to paste: the first Hibira tool call (or the client's MCP login command) opens a Hibira consent page, where you choose read only or read and write, and which apps the agent may use.
@@ -91,6 +92,20 @@ and in `opencode.json`:
 
 Then `opencode mcp auth hibira`.
 
+### Zed
+
+Zed connects to remote MCP servers itself and signs in with OAuth. Open **Settings → AI → MCP Servers → Add Server**, or add this to `settings.json`:
+
+```json
+{
+  "context_servers": {
+    "hibira": { "url": "https://hibira.io/mcp" }
+  }
+}
+```
+
+Then press **Authenticate** next to `hibira` in the Agent Panel settings. To use a personal access token instead of OAuth, add `"headers": { "Authorization": "Bearer hkb_pat_..." }`. Add the skills with `npx skills add hibira-io/agent-plugin`.
+
 ### Other agents
 
 Any agent that reads `SKILL.md` folders can take the skills with [`skills`](https://github.com/vercel-labs/skills), and any MCP client can use the server URL:
@@ -147,6 +162,7 @@ No plugin? Paste the short rules snippet from [hibira.io/mcp-server](https://hib
 | `gemini-extension.json` | Gemini CLI extension |
 | `plugin.json`, `mcp.json` | Agent Plugins manifest |
 | `openai/submission.json` | ChatGPT plugin directory review data (test cases, release notes, translations) |
+| `lobehub/lhm.plugin.json` | [LobeHub MCP marketplace](https://lobehub.com/mcp) listing (`npx -y @lobehub/market-cli plugin publish https://github.com/hibira-io/agent-plugin --dir lobehub`) |
 
 The `check` workflow (`.github/workflows/check.yml`) checks on every push that each manifest carries the same version and MCP URLs. The repo ships no script files, because the Claude plugin directory refuses them from publishers that are not Verified.
 
@@ -160,4 +176,4 @@ MIT
 
 ### 中文摘要
 
-Hibira 的 AI 編程助手外掛：接上 Hibira MCP 伺服器（OAuth 登入，不需 API key），並附 14 個技能，讓助手能在你的專案裡接上即時頻道、推播、AI 串流、人工審核、聊天（Chat API）與排隊等候室（建立、開放、暫停、售罄、放行，並在任何框架裡驗證 pass），也能協助從 Pusher 遷移。另含 Hibira 即時客服的 MCP 伺服器（`https://chat.hibira.io/mcp`），可幫你把自家後台接上即時客服的單一登入，讓客服從後台直接打開收件匣；它看不到你的 SSO 密鑰。新技能可把即時客服小工具裝到任何網站，並把你的 FAQ 和說明頁整理成知識庫 JSON 檔一鍵匯入。也含 Gaya 的 MCP 伺服器（`https://gaya.hibira.io/mcp`），可請一群 AI 角色討論問題或評估文案、命名與定價，帶回結論和房間連結。沒有外掛的話，可到 hibira.io/mcp-server 複製一段規則貼進 CLAUDE.md、AGENTS.md 或 Cursor 規則。支援 Claude Code、Codex、Copilot CLI、Gemini CLI、Cursor、VS Code、OpenCode，其他工具可用 `npx skills add hibira-io/agent-plugin` 加上 MCP 網址 `https://hibira.io/mcp`。ChatGPT 外掛目錄的上傳用 ZIP 由 GitHub Actions 的 check 工作流程產生（只含 `hibira` 一個 MCP 伺服器）。
+Hibira 的 AI 編程助手外掛：接上 Hibira MCP 伺服器（OAuth 登入，不需 API key），並附 14 個技能，讓助手能在你的專案裡接上即時頻道、推播、AI 串流、人工審核、聊天（Chat API）與排隊等候室（建立、開放、暫停、售罄、放行，並在任何框架裡驗證 pass），也能協助從 Pusher 遷移。另含 Hibira 即時客服的 MCP 伺服器（`https://chat.hibira.io/mcp`），可幫你把自家後台接上即時客服的單一登入，讓客服從後台直接打開收件匣；它看不到你的 SSO 密鑰。新技能可把即時客服小工具裝到任何網站，並把你的 FAQ 和說明頁整理成知識庫 JSON 檔一鍵匯入。也含 Gaya 的 MCP 伺服器（`https://gaya.hibira.io/mcp`），可請一群 AI 角色討論問題或評估文案、命名與定價，帶回結論和房間連結。沒有外掛的話，可到 hibira.io/mcp-server 複製一段規則貼進 CLAUDE.md、AGENTS.md 或 Cursor 規則。支援 Claude Code、Codex、Copilot CLI、Gemini CLI、Cursor、VS Code、OpenCode、Zed（在 `context_servers` 填 MCP 網址即可，Zed 會用 OAuth 登入），其他工具可用 `npx skills add hibira-io/agent-plugin` 加上 MCP 網址 `https://hibira.io/mcp`。ChatGPT 外掛目錄的上傳用 ZIP 由 GitHub Actions 的 check 工作流程產生（只含 `hibira` 一個 MCP 伺服器）。`lobehub/lhm.plugin.json` 是 LobeHub MCP 市集的上架資料。
