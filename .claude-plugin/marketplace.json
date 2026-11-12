@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Hibira plugin marketplace for Claude Code.",
-    "version": "0.9.0"
+    "version": "0.10.0"
   },
   "plugins": [
     {
@@ -49,6 +49,27 @@
         "live-chat",
         "customer-service",
         "ecommerce"
+      ]
+    },
+    {
+      "name": "hibira-approval-hooks",
+      "source": "./plugins/approval-hooks",
+      "version": "0.1.0",
+      "description": "Second-person approval for risky shell commands in Claude Code, Codex and Cursor: rm -rf, force pushes, deploys, terraform apply, package publishing and database writes wait until someone in your Hibira Approvals workspace approves them on their phone.",
+      "author": {
+        "name": "Hibira",
+        "email": "support@hibira.io"
+      },
+      "homepage": "https://github.com/hibira-io/mcp-approval-gate#coding-agents-approval-before-risky-shell-commands",
+      "repository": "https://github.com/hibira-io/agent-plugin",
+      "license": "MIT",
+      "keywords": [
+        "hibira",
+        "approvals",
+        "human-in-the-loop",
+        "hooks",
+        "guardrails",
+        "deploy"
       ]
     }
   ]
