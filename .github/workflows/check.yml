@@ -81,7 +81,25 @@ jobs:
           if (opsMcp.hibira?.url !== MCP_URL) errors.push(`${ops}/.mcp.json: MCP URL ${opsMcp.hibira?.url}, expected ${MCP_URL}`);
           if (opsMcp['hibira-live-chat']?.url !== LIVE_CHAT_URL) errors.push(`${ops}/.mcp.json: Live Chat MCP URL ${opsMcp['hibira-live-chat']?.url}, expected ${LIVE_CHAT_URL}`);
 
-          for (const p of ['assets/icon.png', '.claude-plugin/icon.png', 'plugins/merchant-ops/.claude-plugin/icon.png']) {
+          // The approval hooks plugin (plugins/approval-hooks) versions on its own too,
+          // and its manifests and hook configs must agree.
+          const hooksDir = 'plugins/approval-hooks';
+          const hooksVersion = read(`${hooksDir}/.claude-plugin/plugin.json`).version;
+          const hooksEntry = read('.claude-plugin/marketplace.json').plugins.find((p) => p.name === 'hibira-approval-hooks');
+          if (!hooksEntry) errors.push('marketplace.json does not list hibira-approval-hooks');
+          else if (hooksEntry.version !== hooksVersion) errors.push(`marketplace.json hibira-approval-hooks version ${hooksEntry.version}, expected ${hooksVersion}`);
+          for (const m of ['.codex-plugin', '.cursor-plugin']) {
+            const v = read(`${hooksDir}/${m}/plugin.json`).version;
+            if (v !== hooksVersion) errors.push(`${hooksDir}/${m}/plugin.json: version ${v}, expected ${hooksVersion}`);
+          }
+          if (!read('.agents/plugins/marketplace.json').plugins.some((p) => p.name === 'hibira-approval-hooks')) errors.push('.agents/plugins/marketplace.json does not list hibira-approval-hooks');
+          const hookCmd = read(`${hooksDir}/hooks/hooks.json`).hooks.PreToolUse?.[0]?.hooks?.[0]?.command ?? '';
+          const cursorCmd = read(`${hooksDir}/hooks/cursor.json`).hooks.beforeShellExecution?.[0]?.command ?? '';
+          for (const [file, c] of [['hooks.json', hookCmd], ['cursor.json', cursorCmd]]) {
+            if (!/^npx -y (--prefer-offline )?@hibira-io\/mcp-approval-gate@\S+ hook\b/.test(c)) errors.push(`${hooksDir}/hooks/${file}: unexpected command "${c}"`);
+          }
+
+          for (const p of ['assets/icon.png', '.claude-plugin/icon.png', 'plugins/merchant-ops/.claude-plugin/icon.png', 'plugins/approval-hooks/.claude-plugin/icon.png']) {
             if (!existsSync(p)) errors.push(`${p} is missing`);
           }
 
@@ -162,3 +180,4 @@ jobs:
           path: dist/hibira-chatgpt.zip
       - run: npx -y @anthropic-ai/claude-code plugin validate .
       - run: npx -y @anthropic-ai/claude-code plugin validate plugins/merchant-ops
+      - run: npx -y @anthropic-ai/claude-code plugin validate plugins/approval-hooks

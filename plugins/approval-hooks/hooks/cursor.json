@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "hooks": {
+    "beforeShellExecution": [
+      {
+        "command": "npx -y --prefer-offline @hibira-io/mcp-approval-gate@^0.4.0 hook cursor",
+        "timeout": 660,
+        "failClosed": true,
+        "matcher": "rm|find|shred|dd|git|gh|terraform|tofu|terragrunt|pulumi|cdk|serverless|sls|sam|kubectl|oc|helm|docker|podman|vercel|netlify|fly|wrangler|firebase|heroku|railway|render|gcloud|gsutil|az|aws|eb|doctl|supabase|prisma|drizzle|knex|sequelize|typeorm|alembic|flyway|liquibase|atlas|dbmate|goose|migrate|rails|rake|artisan|manage\\.py|psql|pgcli|mysql|mariadb|sqlite3|sqlcmd|clickhouse|duckdb|cqlsh|snowsql|bq|redis-cli|valkey-cli|mongo|pg_restore|dropdb|publish|deploy|release|destroy|prod|cargo|twine|gem|nuget|mvn|gradle|goreleaser|fastlane|eas|vsce|chmod|chown|crontab|kill|shutdown|reboot|systemctl|curl|http|wget|stripe|ssh|eval|bash|sh |zsh|truncate"
+      }
+    ]
+  }
+}
