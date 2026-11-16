@@ -14,7 +14,7 @@ A short report a store owner or support lead reads in two minutes: what happened
 
 ## 2. Get the conversations
 
-The Live Chat MCP server does not read conversations. Use the Live Chat REST API with a **read** key (Team and Business plans; an owner or admin creates it at https://chat.hibira.io/portal/developers, scope *read*).
+The Live Chat MCP server does not read conversations. Use the Live Chat REST API with a **read** key (Team and Business plans; an owner or admin creates it at https://hibira.io/portal/live-chat/developers, scope *read*).
 
 - The merchant keeps the key in an environment variable, such as `HIBIRA_LIVECHAT_KEY`, in their own terminal or secret store. **Never ask them to paste it into chat, never print it and never write it to a file.** If they paste it anyway, tell them to revoke it in the portal and create a new one.
 - This needs a client that can run shell commands. Without a shell, or without a key, see *No API key* below.
@@ -37,7 +37,7 @@ At most 10 requests a second per key; pause and retry on `429`. Work on the JSON
 
 ### No API key
 
-- **Business plan**: the same numbers are on https://chat.hibira.io/portal/reports (pick the period). Ask the merchant for the figures, or a screenshot of the page, and build the summary tab from it. There are no per-conversation rows, so skip *Needs follow-up* and say why.
+- **Business plan**: the same numbers are on https://hibira.io/portal/live-chat/reports (pick the period). Ask the merchant for the figures, or a screenshot of the page, and build the summary tab from it. There are no per-conversation rows, so skip *Needs follow-up* and say why.
 - **Starter, or no key wanted**: say what the key would add, point to the portal's inbox and ratings pages, and still do the waiting room part (step 4).
 
 ## 3. Count
@@ -80,7 +80,7 @@ From them, write:
 
 - **Top questions**: 3 to 7 themes in a few words each ("Where is my order", "Size exchange", "Payment failed at checkout"), with a count.
 - **Knowledge gaps**: questions the assistant handed off or got wrong because the knowledge base had no answer. For each, a suggested entry in the import file format of the `livechat-knowledge` skill in the `hibira` plugin, written only from the team's own replies in those conversations. Mark anything you are unsure of for the merchant to confirm; never invent a policy.
-- **Needs follow-up**: open conversations still waiting, and low ratings nobody answered, with the link `https://chat.hibira.io/inbox/<id>`.
+- **Needs follow-up**: open conversations still waiting, and low ratings nobody answered, with the link `https://hibira.io/portal/live-chat/inbox/<id>`.
 
 Messages marked `internal: true` are the team's notes: use them to understand, never quote them as answers.
 
@@ -97,7 +97,7 @@ Messages marked `internal: true` are the team's notes: use them to understand, n
 
 A whiteboard suits the top questions as clusters if the merchant asks for one; the numbers stay in the sheet.
 
-End with three lines in chat: the headline ("142 chats, 61% solved by the assistant, 3 still waiting"), the one thing to fix, and the knowledge entries ready to import at https://chat.hibira.io/portal/knowledge.
+End with three lines in chat: the headline ("142 chats, 61% solved by the assistant, 3 still waiting"), the one thing to fix, and the knowledge entries ready to import at https://hibira.io/portal/live-chat/knowledge.
 
 ## Privacy
 

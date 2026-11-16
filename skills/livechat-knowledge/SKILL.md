@@ -7,7 +7,7 @@ description: Fill a Hibira Live Chat knowledge base (what the AI assistant answe
 
 The Live Chat AI assistant answers visitors from the workspace's knowledge base and hands over to a person when it cannot. Entries are either a question with its answer (`qa`) or an article (`article`: a policy, a help page). Search is by words and by meaning, in any of the supported languages, so an entry does not have to match the visitor's wording.
 
-You write a JSON file; the user imports it at `https://chat.hibira.io/portal/knowledge` with the **import** button (the file icon next to "New entry"). You never need a token or a password.
+You write a JSON file; the user imports it at `https://hibira.io/portal/live-chat/knowledge` with the **import** button (the file icon next to "New entry"). You never need a token or a password.
 
 ## File format
 
@@ -35,7 +35,7 @@ Importing is safe to repeat: an entry with the same kind and title (any case) as
 3. **Language.** Write entries in the language the source is in. Add a second language only if the user asks; search by meaning already finds an entry for a question asked in another language.
 4. **Leave out** anything private or internal: staff names, internal notes, personal data of customers, discount codes not meant for everyone, secrets.
 5. **Save the file** as `hibira-knowledge.json` (or a name the user prefers) in the project, validate that it parses and every entry meets the limits above, and tell the user how many entries it has.
-6. **Import.** Ask the user to open `https://chat.hibira.io/portal/knowledge`, press the import button and pick the file. The toast says how many entries were new and how many were updated.
+6. **Import.** Ask the user to open `https://hibira.io/portal/live-chat/knowledge`, press the import button and pick the file. The toast says how many entries were new and how many were updated.
 7. **Test.** Under **AI assistant**, the user can try a question and see which entries the answer used. Suggest three real visitor questions to try.
 
 ## Keeping it current

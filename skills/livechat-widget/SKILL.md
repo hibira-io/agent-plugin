@@ -13,7 +13,7 @@ The widget is one plain script with no dependencies. It draws a chat button and 
 
 ## Steps
 
-1. **Find the workspace ID.** It starts with `ws_`. It is on the Live Chat portal's **Widget** settings page (`https://chat.hibira.io/portal/widget`), in the snippet shown there. If the `hibira-live-chat` MCP server is connected, `get_sso_setup` returns it as `workspace.id`. The ID is public (it ships in the page), so it may go in source or a public env variable such as `NEXT_PUBLIC_HIBIRA_CHAT_WORKSPACE`. There is no secret to handle.
+1. **Find the workspace ID.** It starts with `ws_`. It is on the Live Chat portal's **Widget** settings page (`https://hibira.io/portal/live-chat/widget`), in the snippet shown there. If the `hibira-live-chat` MCP server is connected, `get_sso_setup` returns it as `workspace.id`. The ID is public (it ships in the page), so it may go in source or a public env variable such as `NEXT_PUBLIC_HIBIRA_CHAT_WORKSPACE`. There is no secret to handle.
 2. **Allow the site.** In the same Widget settings, under "Sites the widget may run on", the user adds each origin the widget runs on, one per line (`https://shop.example.com`, and `http://localhost:3000` for development). The widget refuses any other site. You cannot do this for them; tell them exactly which origins to add.
 3. **Add the script once, on every page that should show the chat**, just before `</body>` or in the shared layout. Follow the project's way of adding third-party scripts:
    - Plain HTML, PHP, Rails, Django, Laravel Blade: the tag in the base layout.
@@ -39,7 +39,7 @@ The widget is one plain script with no dependencies. It draws a chat button and 
 
 ## Verify
 
-Run the site, open the page, click the button and send a message. It shows up in the inbox at `https://chat.hibira.io/inbox`. If the button never appears, the origin is missing from the allowed sites, the workspace ID is wrong, or the CSP blocks the script (check the browser console).
+Run the site, open the page, click the button and send a message. It shows up in the inbox at `https://hibira.io/portal/live-chat/inbox`. If the button never appears, the origin is missing from the allowed sites, the workspace ID is wrong, or the CSP blocks the script (check the browser console).
 
 ## Related
 
