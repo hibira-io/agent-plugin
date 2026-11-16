@@ -5,7 +5,7 @@ description: Get a second person's approval in Hibira Approvals before a coding 
 
 # Approval before risky actions
 
-Some steps cannot be taken back. Before running one, a second person should say yes. With Hibira Approvals, the request goes to the approvers' phones and the inbox at approvals.hibira.io; the agent never gets an approval link, so it cannot approve itself.
+Some steps cannot be taken back. Before running one, a second person should say yes. With Hibira Approvals, the request goes to the approvers' phones and the Approvals inbox at hibira.io/portal/approvals/inbox; the agent never gets an approval link, so it cannot approve itself.
 
 ## What needs approval
 

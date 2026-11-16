@@ -9,7 +9,7 @@ For store and event teams, not developers: run a sale day and read your customer
 
 It uses the Hibira MCP server (`https://hibira.io/mcp`, waiting rooms) and the Hibira Live Chat MCP server (`https://chat.hibira.io/mcp`). Both sign in with OAuth; there is no key to paste.
 
-Reading Live Chat conversations uses the Live Chat REST API with a **read** API key (Team and Business plans, created at https://chat.hibira.io/portal/developers). Keep it in an environment variable such as `HIBIRA_LIVECHAT_KEY`; the skills never ask for it in chat. Without a key, the digest falls back to the Reports page (Business) and the runbook asks the person on chat.
+Reading Live Chat conversations uses the Live Chat REST API with a **read** API key (Team and Business plans, created at https://hibira.io/portal/live-chat/developers). Keep it in an environment variable such as `HIBIRA_LIVECHAT_KEY`; the skills never ask for it in chat. Without a key, the digest falls back to the Reports page (Business) and the runbook asks the person on chat.
 
 ## Install
 

@@ -64,7 +64,7 @@ Fill it from the merchant's sale, not a generic list. A typical skeleton:
 | Sold out | `state: "closed"` and a sold-out notice |
 | After | Leave the room closed, run the support digest for the day |
 
-**Live Chat answers.** The questions a sale brings are predictable: start time, purchase limits, sizes and stock, payment methods, shipping dates, "my page is stuck", "I lost my place". Draft them as Live Chat knowledge entries in the import file format of the `livechat-knowledge` skill in the `hibira` plugin (`{"items":[{"kind":"qa","title":"...","body":"..."}]}`), using only facts the merchant gives you. The merchant imports the file at https://chat.hibira.io/portal/knowledge. Never invent a policy, date or price.
+**Live Chat answers.** The questions a sale brings are predictable: start time, purchase limits, sizes and stock, payment methods, shipping dates, "my page is stuck", "I lost my place". Draft them as Live Chat knowledge entries in the import file format of the `livechat-knowledge` skill in the `hibira` plugin (`{"items":[{"kind":"qa","title":"...","body":"..."}]}`), using only facts the merchant gives you. The merchant imports the file at https://hibira.io/portal/live-chat/knowledge. Never invent a policy, date or price.
 
 ## 3. Sale time
 
@@ -97,7 +97,7 @@ Keep a short log in the runbook (time, change, why) so the team can see what hap
 
 ## Reading the Live Chat inbox
 
-The Live Chat MCP server does not read conversations. For the inbox, use the Live Chat REST API with a **read** key (Team and Business plans; an owner or admin creates it at https://chat.hibira.io/portal/developers).
+The Live Chat MCP server does not read conversations. For the inbox, use the Live Chat REST API with a **read** key (Team and Business plans; an owner or admin creates it at https://hibira.io/portal/live-chat/developers).
 
 - The merchant puts the key in an environment variable, such as `HIBIRA_LIVECHAT_KEY`, in their own terminal or secret store. **Never ask them to paste it into chat, never print it and never write it to a file.** If they paste it anyway, tell them to revoke it in the portal and create a new one.
 - This needs a client that can run shell commands. In a client without a shell, skip it and ask the person on chat instead.
@@ -107,7 +107,7 @@ curl -s -H "Authorization: Bearer $HIBIRA_LIVECHAT_KEY" \
   "https://chat.hibira.io/v1/conversations?status=open&assignee_id=none&limit=100"
 ```
 
-Each conversation has `waiting_since` (set while the visitor waits for a reply), `last_from` (`visitor`, `agent` or `ai`), `ai_handoff` (the assistant passed it to a person) and `channel` (empty for the website widget). Report counts and the longest wait, not visitor names or messages. Link a conversation as `https://chat.hibira.io/inbox/<id>`. At most 10 requests a second per key.
+Each conversation has `waiting_since` (set while the visitor waits for a reply), `last_from` (`visitor`, `agent` or `ai`), `ai_handoff` (the assistant passed it to a person) and `channel` (empty for the website widget). Report counts and the longest wait, not visitor names or messages. Link a conversation as `https://hibira.io/portal/live-chat/inbox/<id>`. At most 10 requests a second per key.
 
 ## Safety
 

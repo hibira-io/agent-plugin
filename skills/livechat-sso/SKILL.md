@@ -1,6 +1,6 @@
 ---
 name: livechat-sso
-description: Connect a business's own admin panel or back office to Hibira Live Chat (chat.hibira.io) single sign-on, so its staff open the Live Chat inbox from it without a separate login. Uses the hibira-live-chat MCP server to read the workspace's setup, write the signing code for the project's stack and check the tokens it makes. Use when the user mentions Hibira Live Chat SSO, agent sign-in, or opening the Live Chat inbox from their admin.
+description: Connect a business's own admin panel or back office to Hibira Live Chat single sign-on, so its staff open the Live Chat inbox from it without a separate login. Uses the hibira-live-chat MCP server to read the workspace's setup, write the signing code for the project's stack and check the tokens it makes. Use when the user mentions Hibira Live Chat SSO, agent sign-in, or opening the Live Chat inbox from their admin.
 ---
 
 # Hibira Live Chat single sign-on
