@@ -23,14 +23,14 @@ List conversations, newest activity first, 100 a page:
 
 ```sh
 curl -s -H "Authorization: Bearer $HIBIRA_LIVECHAT_KEY" \
-  "https://chat.hibira.io/v1/conversations?status=all&limit=100"
+  "https://api.hibira.io/live-chat/v1/conversations?status=all&limit=100"
 ```
 
 Keep calling with `&before=<next_before>` from the previous page until `next_before` is `null` or the last conversation's `updated_at` is before the period start. Then keep only conversations whose `created_at` is inside the period. Ratings for the period:
 
 ```sh
 curl -s -H "Authorization: Bearer $HIBIRA_LIVECHAT_KEY" \
-  "https://chat.hibira.io/v1/ratings?since=<period start, RFC 3339>"
+  "https://api.hibira.io/live-chat/v1/ratings?since=<period start, RFC 3339>"
 ```
 
 At most 10 requests a second per key; pause and retry on `429`. Work on the JSON in memory or in a temporary file you delete afterwards; do not keep visitor data around.
@@ -73,7 +73,7 @@ Open the conversations that teach the most, up to about 20: handoffs first, then
 
 ```sh
 curl -s -H "Authorization: Bearer $HIBIRA_LIVECHAT_KEY" \
-  "https://chat.hibira.io/v1/conversations/<id>"
+  "https://api.hibira.io/live-chat/v1/conversations/<id>"
 ```
 
 From them, write:
