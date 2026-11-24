@@ -55,7 +55,7 @@
   },
   "publication": {
     "countries": [],
-    "release_notes": "0.9.0 adds live panels in ChatGPT: a waiting room panel that follows the queue as it moves, Live Charts that redraw as soon as an app publishes a number, and live polls with a share link and QR code. The hibira-mcp-usage skill documents the new tools.",
+    "release_notes": "0.11.0 adds live panels in ChatGPT: a waiting room panel that follows the queue as it moves, Live Charts that redraw as soon as an app publishes a number, and live polls with a share link and QR code. A new skill covers connecting a business's own systems to Hibira Live Chat with its REST API and signed webhooks.",
     "translations": {
       "ja-JP": {
         "subtitle": "リアルタイム通信とプッシュ通知",
