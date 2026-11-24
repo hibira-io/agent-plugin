@@ -122,8 +122,9 @@ jobs:
           import { join } from 'node:path';
 
           const SERVER = 'hibira';
-          // Skills for other products (Live Chat, Gaya) and their MCP servers stay out.
-          const SKIP_SKILLS = new Set(['livechat-sso', 'livechat-widget', 'livechat-knowledge', 'gaya-ask-group', 'gaya-review']);
+          // Skills for other products (Live Chat widget, Gaya), their MCP servers and
+          // the coding-agent approval hooks stay out.
+          const SKIP_SKILLS = new Set(['livechat-sso', 'livechat-widget', 'livechat-knowledge', 'gaya-ask-group', 'gaya-review', 'approval-before-risky-actions']);
           const OUT = 'dist/hibira-chatgpt';
 
           const read = (p) => JSON.parse(readFileSync(p, 'utf8'));

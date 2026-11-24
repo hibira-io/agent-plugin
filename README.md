@@ -178,7 +178,7 @@ No plugin? Paste the short rules snippet from [hibira.io/mcp-server](https://hib
 
 The `check` workflow (`.github/workflows/check.yml`) checks on every push that each manifest carries the same version and MCP URLs (the merchant ops and approval hooks plugins are checked against their own versions), and validates every plugin. The repo ships no script files, because the Claude plugin directory refuses them from publishers that are not Verified.
 
-For the ChatGPT plugin directory, the same workflow builds `hibira-chatgpt.zip` and attaches it to the run as an artifact (run it by hand from the Actions tab to set a demo video URL): the Codex manifest plus `openai/submission.json`, the `hibira` MCP server only (the directory takes one server per plugin) and every skill except the Live Chat and Gaya ones. Upload it at platform.openai.com/plugins.
+For the ChatGPT plugin directory, the same workflow builds `hibira-chatgpt.zip` and attaches it to the run as an artifact (run it by hand from the Actions tab to set a demo video URL): the Codex manifest plus `openai/submission.json`, the `hibira` MCP server only (the directory takes one server per plugin) and every skill except the Live Chat widget, SSO and knowledge base, Gaya and coding-agent approval hook ones. Upload it at platform.openai.com/plugins.
 
 ## License
 
