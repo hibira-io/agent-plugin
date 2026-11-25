@@ -104,7 +104,7 @@ The Live Chat MCP server does not read conversations. For the inbox, use the Liv
 
 ```sh
 curl -s -H "Authorization: Bearer $HIBIRA_LIVECHAT_KEY" \
-  "https://chat.hibira.io/v1/conversations?status=open&assignee_id=none&limit=100"
+  "https://api.hibira.io/live-chat/v1/conversations?status=open&assignee_id=none&limit=100"
 ```
 
 Each conversation has `waiting_since` (set while the visitor waits for a reply), `last_from` (`visitor`, `agent` or `ai`), `ai_handoff` (the assistant passed it to a person) and `channel` (empty for the website widget). Report counts and the longest wait, not visitor names or messages. Link a conversation as `https://hibira.io/portal/live-chat/inbox/<id>`. At most 10 requests a second per key.

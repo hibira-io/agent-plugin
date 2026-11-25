@@ -5,7 +5,7 @@ description: Connect a business's own systems to Hibira Live Chat (chat.hibira.i
 
 # Hibira Live Chat REST API and webhooks
 
-Base URL `https://chat.hibira.io/v1`, JSON in and out, `Authorization: Bearer <key>`. Conversations, ratings and webhooks need the workspace on the **Team plan or above**. Docs: https://chat.hibira.io/docs/#api and https://chat.hibira.io/docs/#webhooks.
+Base URL `https://api.hibira.io/live-chat/v1`, JSON in and out, `Authorization: Bearer <key>`. Conversations, ratings and webhooks need the workspace on the **Team plan or above**. Docs: https://chat.hibira.io/docs/#api and https://chat.hibira.io/docs/#webhooks.
 
 ## Pick the credential
 
