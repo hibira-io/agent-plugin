@@ -159,6 +159,10 @@ A second plugin in this marketplace, `hibira-merchant-ops` ([`plugins/merchant-o
 
 `hibira-approval-hooks` ([`plugins/approval-hooks`](plugins/approval-hooks)) adds a hook to Claude Code, Codex and Cursor: `rm -rf`, `git push --force`, deploys, `terraform apply`, package publishing and database writes wait until someone in your [Hibira Approvals](https://hibira.io/approvals) workspace approves them on their phone; everything else runs as usual. Connect once with `npx -y @hibira-io/mcp-approval-gate login --label "coding agent"`, then `claude plugin install hibira-approval-hooks@hibira`.
 
+**Images, video and game art**
+
+`hibira-illusion` ([`plugins/illusion`](plugins/illusion)) connects your assistant to [Hibira Illusion](https://illusion.hibira.io): ask in plain words for campaign scenes with your real product kept pixel-exact, game art that drops into Tiled, Godot or Unity (8-direction characters, effects, UI kits, item sets, autotiles, whole level maps), clips and vertical Shorts, and the finished files land in your project. Make a token on the portal's **API** page, `export ILLUSION_API_TOKEN=…`, then `claude plugin install hibira-illusion@hibira`.
+
 No plugin? Paste the short rules snippet from [hibira.io/mcp-server](https://hibira.io/mcp-server#rules) into `CLAUDE.md`, `AGENTS.md` or a Cursor rule.
 
 ## Repository layout
@@ -167,6 +171,7 @@ No plugin? Paste the short rules snippet from [hibira.io/mcp-server](https://hib
 |---|---|
 | `skills/` | The skills, shared by every client |
 | `plugins/merchant-ops/` | The `hibira-merchant-ops` plugin (its own manifest, MCP servers, skills and commands; versioned separately) |
+| `plugins/illusion/` | The `hibira-illusion` plugin: the Illusion MCP server (API token from `ILLUSION_API_TOKEN`), skills for the studio, game art and ad creatives, and the `/game-art` and `/ad-set` commands; versioned separately |
 | `plugins/approval-hooks/` | The `hibira-approval-hooks` plugin: hook configs only (`hooks/hooks.json` for Claude Code and Codex, `hooks/cursor.json` for Cursor) that run `npx @hibira-io/mcp-approval-gate hook`; versioned separately |
 | `.mcp.json` | MCP server (Claude Code, Codex, Cursor, Copilot, VS Code) |
 | `.claude-plugin/` | Claude Code plugin and marketplace (also read by Copilot CLI and VS Code) |
@@ -177,7 +182,7 @@ No plugin? Paste the short rules snippet from [hibira.io/mcp-server](https://hib
 | `openai/submission.json` | ChatGPT plugin directory review data (test cases, release notes, translations) |
 | `lobehub/lhm.plugin.json` | [LobeHub MCP marketplace](https://lobehub.com/mcp) listing (`npx -y @lobehub/market-cli plugin publish https://github.com/hibira-io/agent-plugin --dir lobehub`) |
 
-The `check` workflow (`.github/workflows/check.yml`) checks on every push that each manifest carries the same version and MCP URLs (the merchant ops and approval hooks plugins are checked against their own versions), and validates every plugin. The repo ships no script files, because the Claude plugin directory refuses them from publishers that are not Verified.
+The `check` workflow (`.github/workflows/check.yml`) checks on every push that each manifest carries the same version and MCP URLs (the merchant ops, approval hooks and Illusion plugins are checked against their own versions; Illusion's customer text is also checked for words that would reveal how it is built), and validates every plugin. The repo ships no script files, because the Claude plugin directory refuses them from publishers that are not Verified.
 
 For the ChatGPT plugin directory, the same workflow builds `hibira-chatgpt.zip` and attaches it to the run as an artifact (run it by hand from the Actions tab to set a demo video URL): the Codex manifest plus `openai/submission.json`, the `hibira` MCP server only (the directory takes one server per plugin) and every skill except the Live Chat widget, SSO and knowledge base, Gaya and coding-agent approval hook ones. Upload it at platform.openai.com/plugins. The published listing is [Hibira in ChatGPT](https://chatgpt.com/plugins/plugin_asdk_app_6af301f5f7c08191b8b2f2581e9bb44d).
 
@@ -189,4 +194,4 @@ MIT
 
 ### 中文摘要
 
-Hibira 的 AI 編程助手外掛：接上 Hibira MCP 伺服器（OAuth 登入，不需 API key），並附 16 個技能，讓助手能在你的專案裡接上即時頻道、推播、AI 串流、人工審核、聊天（Chat API）與排隊等候室（建立、開放、暫停、售罄、放行，並在任何框架裡驗證 pass），也能協助從 Pusher 遷移。另含 Hibira 即時客服的 MCP 伺服器（`https://chat.hibira.io/mcp`），可幫你把自家後台接上即時客服的單一登入，讓客服從後台直接打開收件匣；它看不到你的 SSO 密鑰。新技能可把即時客服小工具裝到任何網站，並把你的 FAQ 和說明頁整理成知識庫 JSON 檔一鍵匯入；`livechat-api` 技能教助手用即時客服的 REST API 與帶簽章的 Webhook 串接 CRM、機器人，並用程式碼管理設定。也含 Gaya 的 MCP 伺服器（`https://gaya.hibira.io/mcp`），可請一群 AI 角色討論問題或評估文案、命名與定價，帶回結論和房間連結。另有 `hibira-approval-hooks` 外掛：讓 Claude Code、Codex、Cursor 執行 `rm -rf`、`git push --force`、部署、`terraform apply`、發佈套件、資料庫寫入等不可逆指令前，先送到 Hibira Approvals 工作區等另一個人在手機上核准；新技能 `approval-before-risky-actions` 教助手何時該先請人核准、被擋下時該怎麼做。沒有外掛的話，可到 hibira.io/mcp-server 複製一段規則貼進 CLAUDE.md、AGENTS.md 或 Cursor 規則。支援 Claude Code、Codex、Copilot CLI、Gemini CLI、Cursor、VS Code、OpenCode、Zed（在 `context_servers` 填 MCP 網址即可，Zed 會用 OAuth 登入），其他工具可用 `npx skills add hibira-io/agent-plugin` 加上 MCP 網址 `https://hibira.io/mcp`。Hibira 已上架 ChatGPT 外掛目錄（https://chatgpt.com/plugins/plugin_asdk_app_6af301f5f7c08191b8b2f2581e9bb44d）；上傳用 ZIP 由 GitHub Actions 的 check 工作流程產生（只含 `hibira` 一個 MCP 伺服器）。`lobehub/lhm.plugin.json` 是 LobeHub MCP 市集的上架資料。
+Hibira 的 AI 編程助手外掛：接上 Hibira MCP 伺服器（OAuth 登入，不需 API key），並附 16 個技能，讓助手能在你的專案裡接上即時頻道、推播、AI 串流、人工審核、聊天（Chat API）與排隊等候室（建立、開放、暫停、售罄、放行，並在任何框架裡驗證 pass），也能協助從 Pusher 遷移。另含 Hibira 即時客服的 MCP 伺服器（`https://chat.hibira.io/mcp`），可幫你把自家後台接上即時客服的單一登入，讓客服從後台直接打開收件匣；它看不到你的 SSO 密鑰。新技能可把即時客服小工具裝到任何網站，並把你的 FAQ 和說明頁整理成知識庫 JSON 檔一鍵匯入；`livechat-api` 技能教助手用即時客服的 REST API 與帶簽章的 Webhook 串接 CRM、機器人，並用程式碼管理設定。也含 Gaya 的 MCP 伺服器（`https://gaya.hibira.io/mcp`），可請一群 AI 角色討論問題或評估文案、命名與定價，帶回結論和房間連結。另有 `hibira-approval-hooks` 外掛：讓 Claude Code、Codex、Cursor 執行 `rm -rf`、`git push --force`、部署、`terraform apply`、發佈套件、資料庫寫入等不可逆指令前，先送到 Hibira Approvals 工作區等另一個人在手機上核准；新技能 `approval-before-risky-actions` 教助手何時該先請人核准、被擋下時該怎麼做。另有 `hibira-illusion` 外掛：接上 Hibira Illusion，用一句話做出商品情境圖（商品像素不變）、可直接放進 Tiled／Godot／Unity 的遊戲美術、短片與直式短影音，成品直接存進你的專案；在入口網站 API 頁建立權杖並設成 `ILLUSION_API_TOKEN` 即可。沒有外掛的話，可到 hibira.io/mcp-server 複製一段規則貼進 CLAUDE.md、AGENTS.md 或 Cursor 規則。支援 Claude Code、Codex、Copilot CLI、Gemini CLI、Cursor、VS Code、OpenCode、Zed（在 `context_servers` 填 MCP 網址即可，Zed 會用 OAuth 登入），其他工具可用 `npx skills add hibira-io/agent-plugin` 加上 MCP 網址 `https://hibira.io/mcp`。Hibira 已上架 ChatGPT 外掛目錄（https://chatgpt.com/plugins/plugin_asdk_app_6af301f5f7c08191b8b2f2581e9bb44d）；上傳用 ZIP 由 GitHub Actions 的 check 工作流程產生（只含 `hibira` 一個 MCP 伺服器）。`lobehub/lhm.plugin.json` 是 LobeHub MCP 市集的上架資料。

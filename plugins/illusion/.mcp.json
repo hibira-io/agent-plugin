@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "illusion": {
+      "type": "http",
+      "url": "https://illusion.hibira.io/mcp",
+      "headers": {
+        "Authorization": "Bearer ${ILLUSION_API_TOKEN}"
+      }
+    }
+  }
+}
