@@ -99,7 +99,31 @@ jobs:
             if (!/^npx -y (--prefer-offline )?@hibira-io\/mcp-approval-gate@\S+ hook\b/.test(c)) errors.push(`${hooksDir}/hooks/${file}: unexpected command "${c}"`);
           }
 
-          for (const p of ['assets/icon.png', '.claude-plugin/icon.png', 'plugins/merchant-ops/.claude-plugin/icon.png', 'plugins/approval-hooks/.claude-plugin/icon.png']) {
+          // The Illusion plugin (plugins/illusion) versions on its own; its MCP server
+          // is Hibira Illusion's, signed in with the customer's API token.
+          const ILLUSION_URL = 'https://illusion.hibira.io/mcp';
+          const ill = 'plugins/illusion';
+          const illVersion = read(`${ill}/.claude-plugin/plugin.json`).version;
+          const illEntry = read('.claude-plugin/marketplace.json').plugins.find((p) => p.name === 'hibira-illusion');
+          if (!illEntry) errors.push('marketplace.json does not list hibira-illusion');
+          else if (illEntry.version !== illVersion) errors.push(`marketplace.json hibira-illusion version ${illEntry.version}, expected ${illVersion}`);
+          for (const m of ['.codex-plugin', '.cursor-plugin']) {
+            const v = read(`${ill}/${m}/plugin.json`).version;
+            if (v !== illVersion) errors.push(`${ill}/${m}/plugin.json: version ${v}, expected ${illVersion}`);
+          }
+          if (!read('.agents/plugins/marketplace.json').plugins.some((p) => p.name === 'hibira-illusion')) errors.push('.agents/plugins/marketplace.json does not list hibira-illusion');
+          const illMcp = read(`${ill}/.mcp.json`).mcpServers.illusion;
+          if (illMcp?.url !== ILLUSION_URL) errors.push(`${ill}/.mcp.json: MCP URL ${illMcp?.url}, expected ${ILLUSION_URL}`);
+          if (illMcp?.headers?.Authorization !== 'Bearer ${ILLUSION_API_TOKEN}') errors.push(`${ill}/.mcp.json: Authorization must read the token from ILLUSION_API_TOKEN, never carry one`);
+          // Customer-facing text never names how Illusion is built.
+          const BANNED = /comfy|qwen|\bwan\b|flux|stable diffusion|sdxl|seedance|byteplus|bedrock|\baws\b|\bs3\b|\bgpu\b|nvidia|lambda|open[- ]weights?|open models?|licen[cs]e of the model/i;
+          const illFiles = ['README.md', 'skills/illusion-studio/SKILL.md', 'skills/game-art-assets/SKILL.md', 'skills/ad-creatives/SKILL.md', 'commands/game-art.md', 'commands/ad-set.md', '.claude-plugin/plugin.json'];
+          for (const f of illFiles) {
+            const hit = readFileSync(`${ill}/${f}`, 'utf8').match(BANNED);
+            if (hit) errors.push(`${ill}/${f}: names "${hit[0]}"; Illusion's customer text never names its models, hosting or hardware`);
+          }
+
+          for (const p of ['assets/icon.png', '.claude-plugin/icon.png', 'plugins/merchant-ops/.claude-plugin/icon.png', 'plugins/approval-hooks/.claude-plugin/icon.png', 'plugins/illusion/.claude-plugin/icon.png']) {
             if (!existsSync(p)) errors.push(`${p} is missing`);
           }
 
@@ -182,3 +206,4 @@ jobs:
       - run: npx -y @anthropic-ai/claude-code plugin validate .
       - run: npx -y @anthropic-ai/claude-code plugin validate plugins/merchant-ops
       - run: npx -y @anthropic-ai/claude-code plugin validate plugins/approval-hooks
+      - run: npx -y @anthropic-ai/claude-code plugin validate plugins/illusion

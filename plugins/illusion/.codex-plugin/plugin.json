@@ -1,0 +1,26 @@
+{
+  "name": "hibira-illusion",
+  "version": "0.1.0",
+  "description": "Hibira Illusion for your AI assistant: make campaign-ready images, product scenes, game art (sprites, tilesets, level maps, item sets, effects) and vertical videos from plain words, and drop the finished files straight into your project.",
+  "author": {
+    "name": "Hibira",
+    "email": "support@hibira.io"
+  },
+  "homepage": "https://illusion.hibira.io/guides/ai-assistants",
+  "repository": "https://github.com/hibira-io/agent-plugin",
+  "license": "MIT",
+  "keywords": [
+    "hibira",
+    "illusion",
+    "image-generation",
+    "video",
+    "game-art",
+    "sprites",
+    "tilesets",
+    "ad-creatives",
+    "mcp",
+    "codex"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json"
+}
